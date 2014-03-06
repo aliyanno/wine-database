@@ -1,0 +1,4 @@
+*.pyc
+*.*~
+server/db
+server/testdb
