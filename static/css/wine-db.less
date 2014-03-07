@@ -1,17 +1,24 @@
+@import "mixins.less";
 
+@background: #F5F2F1;
 
+body {
+	background: @background;
+}
 .container {
 	width: 960px;
 	max-width: 100%;
 	margin: auto;
 }
 .wine-hd {
-	h2 {
-		color: white;
+	padding-top: 156px;
+	font-size: 30px;
+	h1 {
+		color: @background;
 	}
 }
 .hd-hero {
 	width: 100%;
-	height: 500px;
+	height: 250px;
 	background: url(../media/winecellar.jpg);
 }

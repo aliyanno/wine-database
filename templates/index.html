@@ -4,14 +4,28 @@
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/wine-db.css') }}">
 	</head>
-	{% raw %}
+
+	<!-- Keeps Flask from parsing any angular -->
+	{% raw %} 
+	
 	<body>
-		<div class="wine-hd">
-			<h1>The Wine Cellar</h1>
-			<div class="hd-hero"></div>
+		<div class="hd-hero">
+			<div class="container">
+				<div class="wine-hd">
+					<h1>The Wine Cellar</h1>
+				</div>
+			</div>
 		</div>
 
+		<div class="content">
+			<div class="container">
+				
+			</div>
+		</div>
+		
+
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+
 	{% endraw %}
 		<script src="{{ url_for('static', filename='js/wine-db.js') }}"></script>
 	</body>
