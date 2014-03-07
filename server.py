@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 app = Flask('wine-db-backend')
 
@@ -7,6 +7,10 @@ import database
 
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/api/docs')
+def api_docs():
     docs = {
         'title': 'wine-db',
         'description': 'This is a simple REST server for a wine database app.',
