@@ -2,7 +2,8 @@ from flask import Flask, jsonify, request
 
 app = Flask('wine-db-backend')
 
-app.jinja_options.update(dict(
+jinja_opts = dict(app.jinja_options.copy())
+jinja_opts.update(dict(
     block_start_string='<%',
     block_end_string='%>',
     variable_start_string='<<',
@@ -10,6 +11,8 @@ app.jinja_options.update(dict(
     comment_start_string='<#',
     comment_end_string='#>',
 ))
+
+app.jinja_options = jinja_opts
 
 import database
 
