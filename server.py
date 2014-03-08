@@ -69,7 +69,9 @@ def update_wine(id):
 @app.route('/api/wine', methods=['PUT'])
 def add_wine():
     wine = request.get_json()
+    print wine
     wine_id = database.insert_wine(wine)
+    print wine_id
     return jsonify(id=wine_id)
 
 @app.route('/api/wine/list', methods=['GET'])

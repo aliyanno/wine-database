@@ -1,13 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="en" ng-app>
+<html lang="en" ng-app="wineApp">
 	<head>
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/wine-db.css') }}">
+		<link rel="stylesheet" href="<< url_for('static', filename='css/normalize.css') >>">
+		<link rel="stylesheet" href="<< url_for('static', filename='css/wine-db.css') >>">
 	</head>
 
-	<!-- Keeps Flask from parsing any angular -->
-	{% raw %} 
-	
+
 	<body>
 		<div class="hd-hero">
 			<div class="container">
@@ -17,17 +15,25 @@
 			</div>
 		</div>
 
-		<div class="content">
+		<div class="content" ng-controller="wineCtrl">
 			<div class="container">
-				
+				<div class="add-button">
+					<p>Wine Data in JSON</p>
+					<p>{{ wineData }}</p>
+					<button class="button add-button" ng-click="addWine()">Add Wine</button>
+				</div>
+				<div>{{ responseText }}</div>
+				<div class="show-button">
+					<div ng-repeat="wine in wines">
+						<p>{{ wine.name }} || {{ wine.variety }}</p>
+					</div>
+				</div>
 			</div>
 		</div>
 		
 
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
-
-	{% endraw %}
-		<script src="{{ url_for('static', filename='js/wine-db.js') }}"></script>
+		<script src="<< url_for('static', filename='js/wine-db.js') >>"></script>
 	</body>
 
 </html>
