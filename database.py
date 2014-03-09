@@ -15,6 +15,10 @@ def get_wine(id):
     wine = json.load(wine_file)
     return wine
 
+def delete_wine(id):
+    wine_filename = _filename_for_id(id)
+    os.remove(wine_filename)
+    return None
 
 def insert_wine(wine):
     """

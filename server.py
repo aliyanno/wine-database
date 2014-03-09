@@ -39,6 +39,12 @@ def api_docs():
             'description': 'Updates a wine. Attach POST data as JSON, and set content-type as application/json.',
             'returns': 'ID of the wine as a JSON string like {"id": <id>}'
         }, {
+            'name': 'Remove a wine',
+            'method': 'DELETE',
+            'url': '/api/wine/<int:id>',
+            'description': 'Deletes a wine from the DB. This cannot be undone.',
+            'returns': 'ID of the wine deleted as a JSON string like {"id": <id>}'
+        }, {
             'name': 'Insert a wine',
             'method': 'PUT',
             'url': '/api/wine',
@@ -64,6 +70,11 @@ def get_wine(id):
 def update_wine(id):
     wine = request.get_json()
     wine_id = database.update_wine(id, wine)
+    return jsonify(id=wine_id)
+
+@app.route('/api/wine/<int:id>', methods=['DELETE'])
+def delete_wine(id):
+    wine_id = database.delete_wine(id)
     return jsonify(id=wine_id)
 
 @app.route('/api/wine', methods=['PUT'])
