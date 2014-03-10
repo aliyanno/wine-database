@@ -1,0 +1,16 @@
+
+<div class="content">
+	<div class="container">
+		<div class="add-button">
+			<p>Wine Data in JSON</p>
+			<p>{{ wineData }}</p>
+			<button class="button add-button" ng-click="addWine()">Add Wine</button>
+		</div>
+		<div>{{ responseText }}</div>
+		<div class="show-button">
+			<div ng-repeat="wine in wines">
+				<p>{{ wine.name }} || {{ wine.variety }}</p>
+			</div>
+		</div>
+	</div>
+</div>

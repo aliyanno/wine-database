@@ -1,4 +1,7 @@
-var wineApp = angular.module('wineApp', []);
+var wineApp = angular.module('wineApp', [
+	'wineControllers',
+	'ngRoute',
+]);
 
 wineApp.controller('wineCtrl', ['$scope', 'currentWines', function($scope, currentWines) {
 	$scope.responseText = "Testing...";
@@ -17,7 +20,7 @@ wineApp.controller('wineCtrl', ['$scope', 'currentWines', function($scope, curre
 
 	// $scope.updateWine = function() {
 	// 	currentWines.updateWine($scope.wineId, $scope.wineChanges).success(function() {
-			
+
 	// 	}
 	// }
 

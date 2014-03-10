@@ -15,25 +15,20 @@
 			</div>
 		</div>
 
-		<div class="content" ng-controller="wineCtrl">
-			<div class="container">
-				<div class="add-button">
-					<p>Wine Data in JSON</p>
-					<p>{{ wineData }}</p>
-					<button class="button add-button" ng-click="addWine()">Add Wine</button>
-				</div>
-				<div>{{ responseText }}</div>
-				<div class="show-button">
-					<div ng-repeat="wine in wines">
-						<p>{{ wine.name }} || {{ wine.variety }}</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		
+<!-- ng-view will grab the corrent template depending on the url--this allows for use of the back button and internal links -->
 
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
-		<script src="<< url_for('static', filename='js/wine-db.js') >>"></script>
+		<div ng-view></div>		
+
+		<script src="<< url_for('static', filename='js/angular.js') >>"></script>
+		<script>
+			var PARTIALS_BASE_URL = '<< url_for("static", filename="partials/") >>';
+		</script>
+		<script type="text/javascript" src="<< url_for('static', filename='js/angular-route.js') >>"></script>
+		<script type="text/javascript" src="<< url_for('static', filename='js/wine-app.js') >>"></script>
+		<script src="<< url_for('static', filename='js/wine-controllers.js') >>">
+		</script>
+		<script src="<< url_for('static', filename='js/wine-services.js') >>">
+		</script>
 	</body>
 
 </html>
