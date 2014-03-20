@@ -1,0 +1,136 @@
+@import "mixins.less";
+@import "variables.less";
+
+body {
+	background: @background;
+	font-weight: 300;
+	font-size: 16px;
+	color: @textColor;
+	h1,h2,h3,h4,h5,h6 {
+		font-weight: 300;
+	}
+}
+a {
+	text-decoration: none;
+	color: @textColor;
+	&:visited {
+		color: @textColor;
+	}
+}
+.container {
+	width: 960px;
+	max-width: 100%;
+	margin: 30px auto;
+}
+.wine-hd {
+	padding-top: 156px;
+	font-size: 30px;
+	h1 {
+		color: @background;
+	}
+}
+.hd-hero {
+	width: 100%;
+	height: 250px;
+	background: url(../media/winecellar.jpg);
+}
+.button-box {
+	clear: both;
+	margin: 20px 0;
+	padding-top: 20px;
+	border-top: 1px solid #ddd;
+	&#home {
+		border: none;
+		padding: 0;
+	}
+	.button {
+		padding: 9px 17px;
+		color: @buttonText;
+		a {
+			text-decoration: none;
+			color: @buttonText;
+		}
+	}
+	.search {
+		padding: 5px 3px;
+		margin: 10px 5px;
+	}
+}
+#list-wines {
+	padding-top: 20px;
+	height: 400px;
+	width: 100%;
+	position: relative;
+	span.sorted-by {
+		width:60px;
+		height: 60px;
+		background: url(../media/icon-sorted.png);
+		background-size: contain;
+	}
+}
+#single-wine {
+	height: 550px;
+	width: 100%;
+	position: relative;
+	h2 {
+		margin-left: 10px;
+		margin-top: -5px;
+		padding-bottom: 10px;
+	}
+}
+#form-wine {
+	height: 450px;
+	input {
+		margin-left: 10px;
+		margin-bottom: 15px;
+	}
+}
+.row {
+	width: 100%;
+	position: relative;
+	&.list-hd {
+		text-transform: uppercase;
+		padding-bottom: 35px;
+		cursor: pointer;
+	}
+	&.list-elem {
+		height: 25px;
+		border-bottom: 1px solid #ddd;
+		padding: 5px 0;
+		&:hover {
+			background: #eee;
+		}
+		.col {
+			padding: 5px 0;
+		}
+	}
+	.col {
+		display: inline-block;
+		float: left;
+	}
+	.col-2 {
+		width: 100%/2;
+	}
+	.col-3 {
+		width: 100%/3;
+	}
+	.col-4 {
+		width: 100%/4;
+	}
+	.col-5 {
+		width: 100%/5;
+	}
+}
+.more-arrow {
+	height: 13px;
+	width: 8px;
+	float: right;
+	margin-right: 15px;
+	background: url(../media/icon-more.png);
+	background-size: contain;
+}
+.ft {
+	height: 20px;
+	background: @ftBackground;
+	border-top: 1px solid #a9a9a9; 
+}

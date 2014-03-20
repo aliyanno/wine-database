@@ -1,0 +1,43 @@
+<!-- // Input form with current information -->
+
+<div class="content">
+	<div class="container">
+		<h2>Update a Wine</h2>
+		<div class="row" id="form-wine">
+			<div class="col col-2">
+					<p>Wine's Name</p>
+					<input ng-model="wineData.name" value=" {{wineData.name }}">
+					<p>Producer</p>
+					<input ng-model="wineData.producer" value="{{ wineData.producer }}">
+					<p>Variety</p>
+					<input ng-model="wineData.variety" value="{{ wineData.variety }}">
+					<p>Vintage</p>
+					<input ng-model="wineData.vintage" value="{{ wineData.vintage }}">
+					<p>Optimal Age</p>
+					<input ng-model="wineData.lifespan"  value="{{ wineData.age }}">
+				</div>
+				<div class="col col-2">
+					<p>Vineyard</p>
+					<input ng-model="wineData.vineyard" value="{{ wineData.vineyard }}">
+					<p>Appelation</p>
+					<input ng-model="wineData.appelation" value="{{ wineData.appelation }}">
+					<p>Region</p>
+					<input ng-model="wineData.subregion1" value="{{ wineData.subregion1 }}">
+					<input ng-model="wineData.subregion2"  value="{{ wineData.subregion2}} ">
+					<p>Country</p>
+					<input ng-model="wineData.country" value="{{ wineData.country }}">
+					<p>Quantity</p>
+					<input ng-model-"wineData.quantity" value="{{ wineData.quantity }}">
+				</div>
+			</div>
+
+		<div class="button-box">
+			<button class="button add-button" ng-click="updateWine()">
+				<a ng-href="/#/{{ wineData.id }}">
+				Update
+				</a>
+			</button>
+		</div>
+
+	</div>
+</div>

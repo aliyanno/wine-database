@@ -1,0 +1,38 @@
+<div class="content">
+	<div class="container">
+		<div class="row" id="single-wine">
+			<div class="col col-2">	
+				<p>Producer</p>
+				<h2>{{ wineData.producer }}</h2>
+				<p>Name</p>
+				<h2>{{ wineData.name || "--" }}</h2>
+				<p>Variety</p>
+				<h2>{{ wineData.variety }}</h2>
+				<p>Vintage</p>
+				<h2>{{ wineData.vintage }}</h2>
+				<p>Optimal Drinking Year</p>
+				<h2>{{ wineData.age }}</h2>
+			</div>
+			<div class="col col-2">
+				<p>Vineyard</p>
+				<h2>{{ wineData.vineyard || "--" }}</h2>
+				<p>Appelation</p>
+				<h2>{{ wineData.appelation || "--" }}</h2>
+				<p>Region</p>
+				<h2>
+					<span ng-if="wineData.subregion2 == true">{{ wineData.subregion2 + ',' }}</span> {{ wineData.subregion1 }}
+				</h2>
+				<p>Country</p>
+				<h2>{{ wineData.country }}</h2>
+				<p>Quantity</p>
+				<h2>{{ wineData.quantity }}</h2>
+			</div>
+
+			<div class="button-box">
+				<a ng-href="/#/update/{{ wineData.id }}">
+					<button class="button">Update</button>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

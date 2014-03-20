@@ -1,0 +1,62 @@
+<!-- Main Template for Wine List -->
+
+<div class="content">
+	<div class="container">
+		<div class="button-box" id="home">
+			<a href="/#/add.html">
+				<button class="button">Add Wine</button>
+			</a>
+			<input type="text" class="search" value="Search" ng-model="query">
+			<!-- <select ng-model="orderProp">
+				<option value="producer">Producer</option>
+				<option value="name">Name</option>
+				<option value="vintage">Vintage</option>
+			</select> -->
+			<p>{{ feedback.responseText }}</p>
+		</div>
+
+		<div id="list-wines">
+			<div class="row list-hd">
+				<div class="col col-5" ng-click="setOrderProp('producer')">
+					Producer
+				</div>
+				<div class="col col-5" ng-click="setOrderProp('name')">
+					Name
+				</div>
+				<div class="col col-5" ng-click="setOrderProp('vintage')">
+					Vintage
+				</div>
+				<div class="col col-5" ng-click="setOrderProp('variety')">
+					Variety
+				</div>
+				<div class="col col-5" ng-click="setOrderProp('country')">
+					Country
+				</div>
+			</div>
+			
+			<div ng-repeat="wine in wines | filter:query | orderBy:orderProp">
+				<a ng-href="/#/{{ wine.id }}">
+					<div class="row list-elem">
+						<div class="col col-5">
+							<span style="padding-left: 5px;">{{ wine.producer || "--"}}</span>
+						</div>
+						<div class="col col-5">
+							{{ wine.name || "--"}}
+						</div>
+						<div class="col col-5" id="vintage">
+							{{ wine.vintage || "--"}}
+						</div>
+						<div class="col col-5">
+							{{ wine.variety || "--"}}
+						</div>
+						<div class="col col-5">
+							{{ wine.country || "--"}}
+							<span class="more-arrow"></span>
+						</div>
+					</div>
+				</a>
+			</div>	
+		</div>
+
+	</div>
+</div>

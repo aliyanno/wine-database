@@ -2,11 +2,8 @@ Wine Database
 =============
 
 
-#### Installation
+### Firebase App
 
-The server requires Flask. You can install that using pip with `pip install flask`. If you don't have pip, do this:
+This App is hosted and run on Firebase. Check out the live version at:
 
-    curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py
-    python get-pip.py
-
-and then `pip install flask` (or `sudo pip install flask`) should work.
+https://popping-fire-1713.firebaseapp.com/#/
