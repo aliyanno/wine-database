@@ -35,7 +35,6 @@ wineControllers
 			return parseInt(lifespan) + parseInt(vintage);
 		}
 
-
 		$scope.getWine = function(ID) {
 			currentWines.getWine(ID).success(function(data) {
 				$scope.wineData = data;
@@ -43,13 +42,18 @@ wineControllers
 			.error(function() {
 				$scope.feedback.updateText = "That wine doesn't exist in the database! Buy more wine!"
 			})
-		};
+		}
+
 		$scope.removeEmptyProperties = function(wineData) {
 			for (var prop in wineData) {
 				if (wineData.prop === "") {
 					delete wineData.prop;
 				}
 			}
+		}
+
+		$scope.addWineId = function(wine, id) {
+			wine.update({databaseId: id});
 		};
 	}])
 
@@ -90,10 +94,14 @@ wineControllers
 			if (!isNaN(age)) {
 				newWine.age = age;
 			}
-
+			/// Removes clutter of empty properties from angular form
 			$scope.removeEmptyProperties(newWine);
 
-			$scope.wineRef.push(newWine, onComplete);
+			/// Adds a wine to the database and sets a unique name to reference the wine object
+			var addedWine = $scope.wineRef.push(newWine, onComplete);
+			var addedWineId = addedWine.name();
+
+			$scope.addWineId(addedWine, addedWineId);
 		};
 	}])
 
@@ -101,7 +109,7 @@ wineControllers
 
 	.controller('singleCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
-		$scope.getWine($routeParams.wineId);
+		$scope.getWine($routeParams.Id);
 
 	}])
 
@@ -109,13 +117,13 @@ wineControllers
 
 	.controller('updateCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
-		$scope.getWine($routeParams.wineId);
+		$scope.getWine($routeParams.Id);
 
 		$scope.updateWine = function() {
 			var updatedWine = $scope.wineData;
 			updatedWine.age = $scope.getDrinkYear($scope.wineData.lifespan, $scope.wineData.vintage);
 
-			currentWines.updateWine(updatedWine.id, updatedWine).success(function() {
+			currentWines.updateWine(updatedWine.databaseId, updatedWine).success(function() {
 				$scope.feedback.responseText = "Wine Updated";
 			})
 			.error(function() {

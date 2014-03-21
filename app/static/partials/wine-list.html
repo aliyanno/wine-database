@@ -35,13 +35,13 @@
 			</div>
 			
 			<div ng-repeat="wine in wines | filter:query | orderBy:orderProp">
-				<a ng-href="/#/{{ wine.id }}">
+				<a ng-href="/#/{{ wine.databaseId }}">
 					<div class="row list-elem">
 						<div class="col col-5">
 							<span style="padding-left: 5px;">{{ wine.producer || "--"}}</span>
 						</div>
 						<div class="col col-5">
-							{{ wine.name || "--"}}
+							{{ wine.wineName || "--"}}
 						</div>
 						<div class="col col-5" id="vintage">
 							{{ wine.vintage || "--"}}
