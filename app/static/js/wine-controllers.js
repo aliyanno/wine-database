@@ -6,13 +6,23 @@ var wineControllers = angular.module('wineControllers', []);
 wineControllers
 
 	.controller('appCtrl', ['$scope', 'currentWines', function($scope, currentWines) {
-		var wineRef = new Firebase('https://popping-fire-1713.firebaseio.com/wines');
-		$scope.wines = {};
+
+		$scope.wines = [];
 		$scope.feedback = {};
 		$scope.wineData = {
 			"available": true,
 			"quantity": 1,
 		};
+
+		$scope.wineRef = new Firebase('https://popping-fire-1713.firebaseio.com/wines');
+
+		$scope.mapObjectToArray = function(wines) {
+			var array = [];
+			angular.forEach(wines, function(wine) {
+				array.push(wine);
+			});
+			return array;
+		}
 
 		$scope.resetWineData = function() {
 			$scope.wineData = {
@@ -25,6 +35,7 @@ wineControllers
 			return parseInt(lifespan) + parseInt(vintage);
 		}
 
+
 		$scope.getWine = function(ID) {
 			currentWines.getWine(ID).success(function(data) {
 				$scope.wineData = data;
@@ -33,16 +44,24 @@ wineControllers
 				$scope.feedback.updateText = "That wine doesn't exist in the database! Buy more wine!"
 			})
 		};
+		$scope.removeEmptyProperties = function(wineData) {
+			for (var prop in wineData) {
+				if (wineData.prop === "") {
+					delete wineData.prop;
+				}
+			}
+		};
 	}])
 
 ///////
 
 	.controller('wineCtrl', ['$scope', 'currentWines', function($scope, currentWines) {
+
 		$scope.getWinesList = function() {
 			currentWines.getWineList().success(function(data) {
-				$scope.wines = data;
+				$scope.wines = $scope.mapObjectToArray(data);
 			})
-		}();
+		}(); 
 
 		$scope.orderProp = "producer";
 
@@ -58,18 +77,23 @@ wineControllers
 		$scope.resetWineData();
 
 		var newWine = $scope.wineData;
+		var onComplete = function(error) {
+			if (error) {
+				$scope.feedback.responseText = "Failed";
+			} else {
+				$scope.feedback.responseText = "Added!";
+			}
+		};
 
 		$scope.addWine = function() {
-			newWine.age = $scope.getDrinkYear($scope.wineData.lifespan, $scope.wineData.vintage);
+			var age = $scope.getDrinkYear($scope.wineData.lifespan, $scope.wineData.vintage);
+			if (!isNaN(age)) {
+				newWine.age = age;
+			}
 
-			console.log(newWine);
-			currentWines.addWine(newWine).success(function() {
-				$scope.feedback.responseText = "Added!";
-				$scope.resetWineData();
-			})
-			.error(function() {
-				$scope.feedback.responseText = "Failed";
-			})
+			$scope.removeEmptyProperties(newWine);
+
+			$scope.wineRef.push(newWine, onComplete);
 		};
 	}])
 
