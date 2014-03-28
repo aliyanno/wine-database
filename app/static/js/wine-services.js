@@ -1,9 +1,9 @@
 (function() {
 	'use strict';
 
-var wineServices = angular.module('wineServices', []);
+var cellarServices = angular.module('cellarServices', []);
 
-wineServices
+cellarServices
 	.factory('currentWines', ['$http', function($http) {
 			return {
 				getWine: function(id) {
@@ -24,7 +24,13 @@ wineServices
 				},
 			};
 	}])
-
+	.factory('currentCellars', ['$http', function($http) {
+			return {
+				getCellarList: function() {
+					return $http({method: 'GET', url: 'https://popping-fire-1713.firebaseio.com/.json', })
+				},
+			};
+	}])
 ;
 
 })();

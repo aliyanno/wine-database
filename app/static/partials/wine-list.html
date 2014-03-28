@@ -34,7 +34,7 @@
 				</div>
 			</div>
 			
-			<div ng-repeat="wine in wines | filter:query | orderBy:orderProp">
+			<div ng-repeat="wine in wines | filter:query | orderBy: orderProp">
 				<a ng-href="/#/{{ wine.databaseId }}">
 					<div class="row list-elem">
 						<div class="col col-5">

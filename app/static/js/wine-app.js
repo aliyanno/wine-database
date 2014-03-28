@@ -1,13 +1,18 @@
 var wineApp = angular.module('wineApp', [
 	'ngRoute',
+	'cellarControllers',
 	'wineControllers',
-	'wineServices',
+	'cellarServices',
 ]);
 
 wineApp.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
 			when('/', {
+				templateUrl: 'static/partials/cellar-list.html',
+				controller: 'cellarCtrl'
+			}).
+			when('/wines', {
 				templateUrl: 'static/partials/wine-list.html',
 				controller: 'wineCtrl',
 			}).

@@ -70,8 +70,9 @@ wineControllers
 		$scope.orderProp = "producer";
 
 		$scope.setOrderProp = function(prop) {
-			return $scope.orderProp = prop;
+			$scope.orderProp = prop;
 		}
+
 	}])
 
 ///////
