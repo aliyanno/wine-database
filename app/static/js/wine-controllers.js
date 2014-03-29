@@ -14,8 +14,6 @@ wineControllers
 			"quantity": 1,
 		};
 
-		$scope.wineRef = new Firebase('https://popping-fire-1713.firebaseio.com/wines');
-
 		$scope.mapObjectToArray = function(wines) {
 			var array = [];
 			angular.forEach(wines, function(wine) {
@@ -35,8 +33,8 @@ wineControllers
 			return parseInt(lifespan) + parseInt(vintage);
 		}
 
-		$scope.getWine = function(ID) {
-			currentWines.getWine(ID).success(function(data) {
+		$scope.getWine = function(cellar, ID) {
+			currentWines.getWine(cellar, ID).success(function(data) {
 				$scope.wineData = data;
 			})
 			.error(function() {
@@ -59,13 +57,16 @@ wineControllers
 
 ///////
 
-	.controller('wineCtrl', ['$scope', 'currentWines', function($scope, currentWines) {
+	.controller('wineCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
-		$scope.getWinesList = function() {
-			currentWines.getWineList().success(function(data) {
+		$scope.cellar = $routeParams.Cellar;
+
+		$scope.getWinesList = function(cellar) {
+			currentWines.getWineList(cellar).success(function(data) {
 				$scope.wines = $scope.mapObjectToArray(data);
 			})
-		}(); 
+		}
+		$scope.getWinesList($scope.cellar); 
 
 		$scope.orderProp = "producer";
 
@@ -77,7 +78,11 @@ wineControllers
 
 ///////
 
-	.controller('addCtrl', ['$scope', 'currentWines', function($scope, currentWines) {
+	.controller('addCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
+
+		$scope.cellar = $routeParams.Cellar;
+
+		$scope.cellarRef = new Firebase('https://popping-fire-1713.firebaseio.com/' + $scope.cellar + '/wines/');
 
 		$scope.resetWineData();
 
@@ -99,7 +104,7 @@ wineControllers
 			$scope.removeEmptyProperties(newWine);
 
 			/// Adds a wine to the database and sets a unique name to reference the wine object
-			var addedWine = $scope.wineRef.push(newWine, onComplete);
+			var addedWine = $scope.cellarRef.push(newWine, onComplete);
 			var addedWineId = addedWine.name();
 
 			$scope.addWineId(addedWine, addedWineId);
@@ -110,7 +115,9 @@ wineControllers
 
 	.controller('singleCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
-		$scope.getWine($routeParams.Id);
+		$scope.cellar = $routeParams.Cellar;
+
+		$scope.getWine($scope.cellar, $routeParams.Id);
 
 	}])
 
@@ -118,7 +125,9 @@ wineControllers
 
 	.controller('updateCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
-		$scope.getWine($routeParams.Id);
+		$scope.cellar = $routeParams.Cellar;
+
+		$scope.getWine($scope.cellar, $routeParams.Id);
 
 		$scope.updateWine = function() {
 			var updatedWine = $scope.wineData;

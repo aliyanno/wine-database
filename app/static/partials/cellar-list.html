@@ -3,8 +3,8 @@
 <div class="content">
 	<div class="container">
 		<div class="button-box" id="home">
-			<a href="/#/add.html">
-				<button class="button">Add Cellar</button>
+			<a href="">
+				<button ng-click="addCellar()" class="button">Add Cellar</button>
 			</a>
 			<input type="text" class="search" value="Search" ng-model="query">
 			<!-- <select ng-model="orderProp">
@@ -32,7 +32,7 @@
 			</div>
 			
 			<div ng-repeat="cellar in cellars | filter:query | orderBy:orderProp">
-				<a ng-href="/#/wines">
+				<a ng-href="/#/{{cellar.name}}">
 					<div class="row list-elem">
 						<div class="col col-4">
 							<span style="padding-left: 5px;">{{ cellar.name || "--"}}</span>
@@ -41,7 +41,7 @@
 							{{ cellar.owner || "--"}}
 						</div>
 						<div class="col col-4">
-							{{ cellar.size || "--"}}
+							{{ cellar.size }}
 						</div>
 						<div class="col col-4">
 							{{ cellar.dateMade || "--"}}

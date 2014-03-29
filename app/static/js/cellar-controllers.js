@@ -12,11 +12,27 @@ cellarControllers
 			})
 		}();
 
+		$scope.cellarName = "Default2";
+
 		$scope.orderProp = "name";
 
 		$scope.setOrderProp = function(prop) {
 			$scope.orderProp = prop;
 		}
+
+		$scope.addCellar = function() {
+			var newCellar = new Cellar($scope.cellarName);
+			currentCellars.addCellar(newCellar).success(function() {
+				console.log("success");
+			}) 
+		}
 	}])
+
+	function Cellar(name) {
+		this.name = name;
+		this.owner = "Aliya";
+		this.wines = {};
+		this.size = Object.keys(this.wines).length;
+	}
 
 })();
