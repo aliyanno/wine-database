@@ -133,7 +133,7 @@ wineControllers
 			var updatedWine = $scope.wineData;
 			updatedWine.age = $scope.getDrinkYear($scope.wineData.lifespan, $scope.wineData.vintage);
 
-			currentWines.updateWine(updatedWine.databaseId, updatedWine).success(function() {
+			currentWines.updateWine($scope.cellar, updatedWine.databaseId, updatedWine).success(function() {
 				$scope.feedback.responseText = "Wine Updated";
 			})
 			.error(function() {
