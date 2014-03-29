@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="button-box" id="home">
 			<a href="">
-				<button ng-click="addCellar()" class="button">Add Cellar</button>
+				<button ng-click="" class="button">Add Cellar</button>
 			</a>
 			<input type="text" class="search" value="Search" ng-model="query">
 			<!-- <select ng-model="orderProp">
@@ -54,5 +54,14 @@
 	</div>
 </div>
 
-<div class="cellar-modal">
-	<div class=""
+<div class="modal">
+	<div class="modal-dim">
+	</div>
+	<div class="modal-body">
+		<h4>Name your new cellar:</h4>
+		<input ng-model="cellarName" />
+		<a href="/#/{{ cellarName }}">
+			<button ng-click="addCellar()" class="button">Add Cellar</button>
+		</a>
+	</div>
+</div>

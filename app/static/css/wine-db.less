@@ -31,6 +31,7 @@ a {
 }
 .hd-hero {
 	width: 100%;
+	margin-top: -30px;
 	height: 250px;
 	background: url(../media/winecellar.jpg);
 }
@@ -128,6 +129,53 @@ a {
 	margin-right: 15px;
 	background: url(../media/icon-more.png);
 	background-size: contain;
+}
+.modal {
+	position: absolute;
+	z-index: 20;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	.modal-dim {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 5;
+		background: rgba(0, 0, 0, 0.5)
+	}
+	.modal-body {
+		position: absolute;
+		top: 300px;
+		width: 400px;
+		margin-left: auto;
+		margin-right: auto;
+		left: 0;
+		right: 0;
+		z-index: 10;
+		background: @background;
+		box-shadow: 0px 0px 3px #555;
+		border: 1px solid #bbb;
+		border-radius: 3px;
+		h4 {
+			padding: 0 20px;
+		}
+		input {
+			margin: 33px;
+			margin-top: 0px;
+			padding: 5px;
+		}
+		.button {
+			padding: 9px 17px;
+			color: @buttonText;
+			a {
+				text-decoration: none;
+				color: @buttonText;
+			}
+		}
+	}
 }
 .ft {
 	height: 20px;
