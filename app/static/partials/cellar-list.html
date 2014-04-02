@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="button-box" id="home">
 			<a href="">
-				<button ng-click="" class="button">Add Cellar</button>
+				<button ng-click="toggleModal()" class="button">Add Cellar</button>
 			</a>
 			<input type="text" class="search" value="Search" ng-model="query">
 			<!-- <select ng-model="orderProp">
@@ -12,7 +12,6 @@
 				<option value="name">Name</option>
 				<option value="vintage">Vintage</option>
 			</select> -->
-			<p>{{ feedback.responseText }}</p>
 		</div>
 
 		<div id="list-wines">
@@ -54,8 +53,8 @@
 	</div>
 </div>
 
-<div class="modal">
-	<div class="modal-dim">
+<div class="modal" ng-show="modalOn">
+	<div class="modal-dim" ng-click="toggleModal()">
 	</div>
 	<div class="modal-body">
 		<h4>Name your new cellar:</h4>

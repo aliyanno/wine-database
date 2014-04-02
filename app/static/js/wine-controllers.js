@@ -13,6 +13,7 @@ wineControllers
 			"available": true,
 			"quantity": 1,
 		};
+		$scope.modalOn = false;
 
 		$scope.mapObjectToArray = function(wines) {
 			var array = [];
@@ -52,6 +53,10 @@ wineControllers
 
 		$scope.addWineId = function(wine, id) {
 			wine.update({databaseId: id});
+		}
+
+		$scope.toggleModal = function() {
+			$scope.modalOn = !$scope.modalOn;
 		};
 	}])
 
@@ -103,7 +108,7 @@ wineControllers
 			/// Removes clutter of empty properties from angular form
 			$scope.removeEmptyProperties(newWine);
 
-			/// Adds a wine to the database and sets a unique name to reference the wine object
+			/// Adds a wine to the database and sets a unique databaseId to reference the wine object
 			var addedWine = $scope.cellarRef.push(newWine, onComplete);
 			var addedWineId = addedWine.name();
 

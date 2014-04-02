@@ -10,9 +10,10 @@ cellarControllers
 			currentCellars.getCellarList().success(function(data) {
 				$scope.cellars = $scope.mapObjectToArray(data);
 			})
+			angular.forEach($scope.cellars, function(cellar, index) {
+				$scope.cellar.size = Object.keys(cellar.wines).length;
+			})
 		}();
-
-		$scope.cellarName = "Default2";
 
 		$scope.orderProp = "name";
 
@@ -28,11 +29,9 @@ cellarControllers
 		}
 	}])
 
-	function Cellar(name) {
+	function Cellar(name, owner) {
 		this.name = name;
-		this.owner = "Aliya";
-		this.wines = {};
-		this.size = Object.keys(this.wines).length;
+		this.owner = owner
 	}
 
 })();
