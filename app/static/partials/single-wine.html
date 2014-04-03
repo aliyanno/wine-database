@@ -1,5 +1,6 @@
 <div class="content">
 	<div class="container">
+		<a ng-href="#/{{ cellar }}"><h1>{{ cellar }}</h1></a>
 		<div class="row" id="single-wine">
 			<div class="col col-2">	
 				<p>Producer</p>
@@ -29,9 +30,13 @@
 			</div>
 
 			<div class="button-box">
-				<a ng-href="/#/{{ cellar }}/wines/{{ wineData.databaseId }}/update">
+				<a ng-hide="!userName" ng-href="/#/{{ cellar }}/wines/{{ wineData.databaseId }}/update">
 					<button class="button">Update</button>
 				</a>
+				<a ng-hide="userName">
+					<button class="button disabled">Update</button>
+				</a>
+				<p ng-hide="userName" class="note">Please login to make changes</p>
 			</div>
 		</div>
 	</div>

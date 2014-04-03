@@ -9,10 +9,12 @@ cellarControllers
 		$scope.getCellars = function(){
 			currentCellars.getCellarList().success(function(data) {
 				$scope.cellars = $scope.mapObjectToArray(data);
-			})
-			angular.forEach($scope.cellars, function(cellar, index) {
-				$scope.cellar.size = Object.keys(cellar.wines).length;
-			})
+
+				angular.forEach($scope.cellars, function(cellar) {
+					cellar.cellarSize = $scope.mapObjectToArray(cellar.wines).length;
+				})
+			
+			});
 		}();
 
 		$scope.orderProp = "name";
@@ -22,16 +24,18 @@ cellarControllers
 		}
 
 		$scope.addCellar = function() {
-			var newCellar = new Cellar($scope.cellarName);
+			var newCellar = new Cellar($scope.cellarName, $scope.userName);
 			currentCellars.addCellar(newCellar).success(function() {
 				console.log("success");
-			}) 
+			}); 
 		}
 	}])
 
 	function Cellar(name, owner) {
 		this.name = name;
 		this.owner = owner
+		this.date = new Date();
+		this.dateMade = ((this.date.getMonth() + 1) + '/' + (this.date.getDate()) + '/' + (this.date.getFullYear()));
 	}
 
 })();

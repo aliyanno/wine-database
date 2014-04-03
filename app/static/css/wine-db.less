@@ -1,5 +1,6 @@
 @import "mixins.less";
 @import "variables.less";
+@import "buttons.less";
 
 body {
 	background: @background;
@@ -17,24 +18,6 @@ a {
 		color: @textColor;
 	}
 }
-.container {
-	width: 960px;
-	max-width: 100%;
-	margin: 30px auto;
-}
-.wine-hd {
-	padding-top: 156px;
-	font-size: 30px;
-	h1 {
-		color: @background;
-	}
-}
-.hd-hero {
-	width: 100%;
-	margin-top: -30px;
-	height: 250px;
-	background: url(../media/winecellar.jpg);
-}
 .button-box {
 	clear: both;
 	margin: 20px 0;
@@ -46,10 +29,8 @@ a {
 	}
 	.button {
 		padding: 9px 17px;
-		color: @buttonText;
 		a {
 			text-decoration: none;
-			color: @buttonText;
 		}
 	}
 	.search {
@@ -57,9 +38,57 @@ a {
 		margin: 10px 5px;
 	}
 }
+.container {
+	width: 960px;
+	max-width: 100%;
+	margin: 30px auto;
+}
+#form-wine {
+	input {
+		margin-left: 10px;
+		margin-bottom: 15px;
+	}
+}
+.ft {
+	height: 20px;
+	background: @ftBackground;
+	border-top: 1px solid #a9a9a9; 
+}
+.hd-hero {
+	width: 100%;
+	margin-top: -30px;
+	height: 250px;
+	background: url(../media/winecellar.jpg);
+	.hero-login {
+		float: right;
+		margin-top: 20px;
+		color: white;
+		&.button {
+			background: rgba(250, 250, 250, 0.2);
+			&:hover {
+				background: @background;
+				color: #555;
+			}
+			&:active {
+				background: darken(@background, 3%);
+				outline: none;
+			}
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+	.wine-hd {
+		padding-top: 156px;
+		font-size: 30px;
+		h1 {
+			color: @background;
+		}
+	}
+}
 #list-wines {
 	padding-top: 20px;
-	height: 400px;
+	min-height: 200px;
 	width: 100%;
 	position: relative;
 	span.sorted-by {
@@ -69,74 +98,13 @@ a {
 		background-size: contain;
 	}
 }
-#single-wine {
-	height: 550px;
-	width: 100%;
-	position: relative;
-	h2 {
-		margin-left: 10px;
-		margin-top: -5px;
-		padding-bottom: 10px;
-	}
-}
-#form-wine {
-	height: 450px;
-	input {
-		margin-left: 10px;
-		margin-bottom: 15px;
-	}
-}
-.row {
-	width: 100%;
-	position: relative;
-	&.list-hd {
-		text-transform: uppercase;
-		padding-bottom: 35px;
-		cursor: pointer;
-	}
-	&.list-elem {
-		height: 25px;
-		border-bottom: 1px solid #ddd;
-		padding: 5px 0;
-		&:hover {
-			background: #eee;
-		}
-		.col {
-			padding: 5px 0;
-		}
-	}
-	.col {
-		display: inline-block;
-		float: left;
-	}
-	.col-2 {
-		width: 100%/2;
-	}
-	.col-3 {
-		width: 100%/3;
-	}
-	.col-4 {
-		width: 100%/4;
-	}
-	.col-5 {
-		width: 100%/5;
-	}
-}
-.more-arrow {
-	height: 13px;
-	width: 8px;
-	float: right;
-	margin-right: 15px;
-	background: url(../media/icon-more.png);
-	background-size: contain;
-}
 .modal {
 	position: absolute;
 	z-index: 20;
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
+	height: 120%;
 	.modal-dim {
 		position: absolute;
 		top: 0;
@@ -177,8 +145,62 @@ a {
 		}
 	}
 }
-.ft {
-	height: 20px;
-	background: @ftBackground;
-	border-top: 1px solid #a9a9a9; 
+.more-arrow {
+	height: 13px;
+	width: 8px;
+	float: right;
+	margin-right: 15px;
+	background: url(../media/icon-more.png);
+	background-size: contain;
+}
+.note {
+	font-style: italic;
+	color: #555;
+	font-size: 12px;
+}
+.row {
+	width: 100%;
+	position: relative;
+	.clearfix();
+	&.list-hd {
+		text-transform: uppercase;
+		padding-bottom: 35px;
+		cursor: pointer;
+	}
+	&.list-elem {
+		height: 25px;
+		border-bottom: 1px solid #ddd;
+		padding: 5px 0;
+		&:hover {
+			background: #eee;
+		}
+		.col {
+			padding: 5px 0;
+		}
+	}
+	.col {
+		display: inline-block;
+		float: left;
+	}
+	.col-2 {
+		width: 100%/2;
+	}
+	.col-3 {
+		width: 100%/3;
+	}
+	.col-4 {
+		width: 100%/4;
+	}
+	.col-5 {
+		width: 100%/5;
+	}
+}
+#single-wine {
+	width: 100%;
+	position: relative;
+	h2 {
+		margin-left: 10px;
+		margin-top: -5px;
+		padding-bottom: 10px;
+	}
 }

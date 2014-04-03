@@ -4,8 +4,11 @@
 	<div class="container">
 		<div class="button-box" id="home">
 			<h1>{{ cellar }}</h1>
-			<a href="/#/{{ cellar }}/add.html">
+			<a ng-hide="!userName" href="/#/{{ cellar }}/add.html">
 				<button class="button">Add Wine</button>
+			</a>
+			<a ng-hide="userName" href="/#/{{ cellar }}/add.html">
+				<button class="button disabled">Add Wine</button>
 			</a>
 			<input type="text" class="search" value="Search" ng-model="query">
 			<!-- <select ng-model="orderProp">
@@ -13,6 +16,7 @@
 				<option value="name">Name</option>
 				<option value="vintage">Vintage</option>
 			</select> -->
+			<p ng-hide="userName" class="note">Please login to make changes</p>
 			<p>{{ feedback.responseText }}</p>
 		</div>
 

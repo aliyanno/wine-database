@@ -58,6 +58,28 @@ wineControllers
 		$scope.toggleModal = function() {
 			$scope.modalOn = !$scope.modalOn;
 		};
+
+		// Firebase auth & login
+
+		var dbRef = new Firebase('https://popping-fire-1713.firebaseio.com');
+		var auth = FirebaseSimpleLogin(dbRef, function(error, user) {
+			if (error) {
+				console.log(error)
+			} else if (user) {
+				$scope.userName = user.displayName;
+				console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
+			} else {
+				$scope.userName = undefined;
+				// user is logged out
+			}
+		});
+		$scope.login = function() {
+			auth.login('google');
+		}
+		$scope.logout = function() {
+			auth.logout();
+		}
+
 	}])
 
 ///////

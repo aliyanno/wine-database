@@ -9,6 +9,9 @@
 	<body ng-controller="appCtrl">
 		<div class="hd-hero">
 			<div class="container">
+				<button ng-hide="userName" ng-click="login()" class="button hero-login">Log In</button>
+				<button ng-hide="!userName" ng-click="logout()" class="button hero-login">Log Out</button>
+				<p ng-hide="!userName" class="hero-login">Welcome back, {{userName}}</p>
 				<a href="#">
 					<div class="wine-hd">
 						<h1>The Wine Cellar</h1>
@@ -24,7 +27,7 @@
 		<script src='/static/js/angular.js'></script>
 		<script type="text/javascript" src="/static/js/angular-route.js"></script>
 		<script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
-		<script src="https://cdn.firebase.com/js/simple-login/1.2.5/firebase-simple-login.js"></script>
+		<script src="https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js"></script>
 		<script type="text/javascript" src="/static/js/wine-app.js"></script>
 		<script type="text/javascript" src="/static/js/cellar-controllers.js"></script>
 		<script src="/static/js/wine-controllers.js">

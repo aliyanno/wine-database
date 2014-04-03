@@ -4,7 +4,8 @@
 	<div class="container">
 		<div class="button-box" id="home">
 			<a href="">
-				<button ng-click="toggleModal()" class="button">Add Cellar</button>
+				<button ng-hide="!userName" ng-click="toggleModal()" class="button">Add Cellar</button>
+				<button ng-hide="userName" class="button disabled">Add Cellar</button>
 			</a>
 			<input type="text" class="search" value="Search" ng-model="query">
 			<!-- <select ng-model="orderProp">
@@ -12,6 +13,7 @@
 				<option value="name">Name</option>
 				<option value="vintage">Vintage</option>
 			</select> -->
+			<p ng-hide="userName" class="note">Please login to make changes</p>
 		</div>
 
 		<div id="list-wines">
@@ -22,7 +24,7 @@
 				<div class="col col-4" ng-click="setOrderProp('owner')">
 					Cellar Master
 				</div>
-				<div class="col col-4" ng-click="setOrderProp('size')">
+				<div class="col col-4" ng-click="setOrderProp('-cellarSize')">
 					Number of Wines
 				</div>
 				<div class="col col-4" ng-click="setOrderProp('dateMade')">
@@ -40,7 +42,7 @@
 							{{ cellar.owner || "--"}}
 						</div>
 						<div class="col col-4">
-							{{ cellar.size }}
+							{{ cellar.cellarSize }}
 						</div>
 						<div class="col col-4">
 							{{ cellar.dateMade || "--"}}
@@ -59,8 +61,8 @@
 	<div class="modal-body">
 		<h4>Name your new cellar:</h4>
 		<input ng-model="cellarName" />
-		<a href="/#/{{ cellarName }}">
-			<button ng-click="addCellar()" class="button">Add Cellar</button>
+		<a>
+			<a ng-href="/#/{{ cellarName }}" ng-click="addCellar(); toggleModal()" class="button">Add Cellar</a>
 		</a>
 	</div>
 </div>
