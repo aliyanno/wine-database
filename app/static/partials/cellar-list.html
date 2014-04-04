@@ -13,7 +13,7 @@
 				<option value="name">Name</option>
 				<option value="vintage">Vintage</option>
 			</select> -->
-			<p ng-hide="userName" class="note">Please login to make changes</p>
+			<p ng-hide="userName" class="note">Please login to add a cellar</p>
 		</div>
 
 		<div id="list-wines">
@@ -33,7 +33,7 @@
 			</div>
 			
 			<div ng-repeat="cellar in cellars | filter:query | orderBy:orderProp">
-				<a ng-href="/#/{{cellar.name}}">
+				<a ng-href="/#/cellars/{{cellar.name}}">
 					<div class="row list-elem">
 						<div class="col col-4">
 							<span style="padding-left: 5px;">{{ cellar.name || "--"}}</span>
@@ -62,7 +62,7 @@
 		<h4>Name your new cellar:</h4>
 		<input ng-model="cellarName" />
 		<a>
-			<a ng-href="/#/{{ cellarName }}" ng-click="addCellar(); toggleModal()" class="button">Add Cellar</a>
+			<a ng-href="/#/cellars/{{ cellarName }}" ng-click="addCellar(); toggleModal()" class="button">Add Cellar</a>
 		</a>
 	</div>
 </div>

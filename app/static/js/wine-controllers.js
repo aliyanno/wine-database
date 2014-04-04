@@ -5,7 +5,7 @@ var wineControllers = angular.module('wineControllers', []);
 
 wineControllers
 
-	.controller('appCtrl', ['$scope', 'currentWines', function($scope, currentWines) {
+	.controller('appCtrl', ['$scope', 'currentWines', 'currentCellars', function($scope, currentWines, currentCellars) {
 
 		$scope.wines = [];
 		$scope.feedback = {};
@@ -80,6 +80,14 @@ wineControllers
 			auth.logout();
 		}
 
+		// Check authorization
+
+		$scope.checkUserName = function(cellar) {
+			currentCellars.getCellarOwner(cellar).success(function(data) {
+				console.log(data);
+				return data;
+			})
+		}
 	}])
 
 ///////
@@ -95,6 +103,9 @@ wineControllers
 		}
 		$scope.getWinesList($scope.cellar); 
 
+		$scope.cellarOwner = $scope.checkUserName($scope.cellar);
+		console.log($scope.cellarOwner);
+
 		$scope.orderProp = "producer";
 
 		$scope.setOrderProp = function(prop) {
@@ -109,7 +120,7 @@ wineControllers
 
 		$scope.cellar = $routeParams.Cellar;
 
-		$scope.cellarRef = new Firebase('https://popping-fire-1713.firebaseio.com/' + $scope.cellar + '/wines/');
+		$scope.cellarRef = new Firebase('https://popping-fire-1713.firebaseio.com/cellars/	' + $scope.cellar + '/wines/');
 
 		$scope.resetWineData();
 

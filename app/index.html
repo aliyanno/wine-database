@@ -11,7 +11,6 @@
 			<div class="container">
 				<button ng-hide="userName" ng-click="login()" class="button hero-login">Log In</button>
 				<button ng-hide="!userName" ng-click="logout()" class="button hero-login">Log Out</button>
-				<p ng-hide="!userName" class="hero-login">Welcome back, {{userName}}</p>
 				<a href="#">
 					<div class="wine-hd">
 						<h1>The Wine Cellar</h1>
@@ -22,7 +21,7 @@
 
 <!-- ng-view will grab the current template depending on the url--this allows for use of the back button and internal links -->
 
-		<div ng-view></div>		
+		<div ng-view id="viewer"></div>		
 
 		<script src='/static/js/angular.js'></script>
 		<script type="text/javascript" src="/static/js/angular-route.js"></script>
