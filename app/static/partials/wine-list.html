@@ -4,19 +4,21 @@
 	<div class="container">
 		<div class="button-box" id="home">
 			<h1>{{ cellar }}</h1>
-			<a ng-hide="!userName" href="/#/cellars/{{ cellar }}/add.html">
+<!-- user is logged in and is owner -->
+			<a ng-show="user.loggedIn && userName === cellar.owner" href="/#/cellars/{{ cellar }}/add.html">
 				<button class="button">Add Wine</button>
 			</a>
-			<a ng-hide="userName" href="/#/cellars/{{ cellar }}/add.html">
+<!-- user is not logged in or is not owner -->
+			<a ng-hide="user.loggedIn && userName === cellar.owner" href="">
 				<button class="button disabled">Add Wine</button>
 			</a>
-			<input type="text" class="search" value="Search" ng-model="query">
+			<input type="text" class="search" value="Search" placeholder="Search" ng-model="query">
 			<!-- <select ng-model="orderProp">
 				<option value="producer">Producer</option>
 				<option value="name">Name</option>
 				<option value="vintage">Vintage</option>
 			</select> -->
-			<p ng-hide="userName" class="note">Please login to make changes</p>
+			<p ng-hide="user.loggedIn" class="note">Please login to make changes</p>
 			<p>{{ feedback.responseText }}</p>
 		</div>
 

@@ -7,6 +7,7 @@ wineControllers
 
 	.controller('appCtrl', ['$scope', 'currentWines', 'currentCellars', function($scope, currentWines, currentCellars) {
 
+		$scope.user = {};
 		$scope.wines = [];
 		$scope.feedback = {};
 		$scope.wineData = {
@@ -63,28 +64,34 @@ wineControllers
 
 		var dbRef = new Firebase('https://popping-fire-1713.firebaseio.com');
 		var auth = FirebaseSimpleLogin(dbRef, function(error, user) {
+
 			if (error) {
-				console.log(error)
+				console.log(error);
+				$scope.user.loggedIn = false;
+				$scope.user.name = {};
 			} else if (user) {
-				$scope.userName = user.displayName;
-				console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
+				$scope.user.loggedIn = true;
+				$scope.user.name = user.displayName;
+				console.log("User: " + user.displayName);
 			} else {
-				$scope.userName = undefined;
+				$scope.user.loggedIn = false;
+				$scope.user.name = {};
 				// user is logged out
 			}
 		});
+
 		$scope.login = function() {
 			auth.login('google');
 		}
 		$scope.logout = function() {
 			auth.logout();
+			$scope.user.loggedIn = false;
 		}
 
 		// Check authorization
 
-		$scope.checkUserName = function(cellar) {
+		$scope.getUserName = function(cellar) {
 			currentCellars.getCellarOwner(cellar).success(function(data) {
-				console.log(data);
 				return data;
 			})
 		}
@@ -103,8 +110,7 @@ wineControllers
 		}
 		$scope.getWinesList($scope.cellar); 
 
-		$scope.cellarOwner = $scope.checkUserName($scope.cellar);
-		console.log($scope.cellarOwner);
+		$scope.cellar.owner = $scope.getUserName($scope.cellar);
 
 		$scope.orderProp = "producer";
 
@@ -119,6 +125,7 @@ wineControllers
 	.controller('addCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
 		$scope.cellar = $routeParams.Cellar;
+		$scope.cellarOwner = $scope.getUserName($scope.cellar);
 
 		$scope.cellarRef = new Firebase('https://popping-fire-1713.firebaseio.com/cellars/	' + $scope.cellar + '/wines/');
 
@@ -154,6 +161,7 @@ wineControllers
 	.controller('singleCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
 		$scope.cellar = $routeParams.Cellar;
+		$scope.cellarOwner = $scope.getUserName($scope.cellar);
 
 		$scope.getWine($scope.cellar, $routeParams.Id);
 
@@ -164,6 +172,7 @@ wineControllers
 	.controller('updateCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
 		$scope.cellar = $routeParams.Cellar;
+		$scope.cellarOwner = $scope.getUserName($scope.cellar);
 
 		$scope.getWine($scope.cellar, $routeParams.Id);
 

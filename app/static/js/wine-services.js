@@ -33,7 +33,7 @@ cellarServices
 					return $http({method: 'PUT', url: 'https://popping-fire-1713.firebaseio.com/cellars/' + cellarData.name + '.json', data: cellarData, })
 				},
 				getCellarOwner: function(cellar) {
-					return $ttp({method: 'GET', url: 'https://popping-fire-1713.firebaseio.com/cellars/' + cellar + '/owner.json', })
+					return $http({method: 'GET', url: 'https://popping-fire-1713.firebaseio.com/cellars/' + cellar + '/owner.json', })
 				},
 			};
 	}])

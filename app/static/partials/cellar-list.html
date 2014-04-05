@@ -4,16 +4,16 @@
 	<div class="container">
 		<div class="button-box" id="home">
 			<a href="">
-				<button ng-hide="!userName" ng-click="toggleModal()" class="button">Add Cellar</button>
-				<button ng-hide="userName" class="button disabled">Add Cellar</button>
+				<button ng-hide="!user.loggedIn" ng-click="toggleModal()" class="button">Add Cellar</button>
+				<button ng-hide="user.loggedIn" class="button disabled">Add Cellar</button>
 			</a>
-			<input type="text" class="search" value="Search" ng-model="query">
+			<input type="text" class="search" value="Search" placeholder="Search" ng-model="query">
 			<!-- <select ng-model="orderProp">
 				<option value="producer">Producer</option>
 				<option value="name">Name</option>
 				<option value="vintage">Vintage</option>
 			</select> -->
-			<p ng-hide="userName" class="note">Please login to add a cellar</p>
+			<p ng-hide="user.loggedIn" class="note">Please login to add a cellar</p>
 		</div>
 
 		<div id="list-wines">
