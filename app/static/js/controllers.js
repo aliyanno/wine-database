@@ -5,7 +5,10 @@ var wineControllers = angular.module('wineControllers', []);
 
 wineControllers
 
-	.controller('appCtrl', ['$scope', 'currentWines', 'currentCellars', function($scope, currentWines, currentCellars) {
+// Cellar App Controller sets up object structure and initial state of
+// app. It also controls the login/logout functionality through // Firebase
+// -----------
+	.controller('CellarAppCtrl', ['$scope', 'currentWines', 'currentCellars', function($scope, currentWines, currentCellars) {
 
 		$scope.user = {};
 		$scope.wines = [];
@@ -62,17 +65,17 @@ wineControllers
 
 		// Firebase auth & login
 
-		var dbRef = new Firebase('https://popping-fire-1713.firebaseio.com');
+		var dbRef = new Firebase('https://cellared.firebaseio.com');
 		var auth = FirebaseSimpleLogin(dbRef, function(error, user) {
-
 			if (error) {
-				console.log(error);
 				$scope.user.loggedIn = false;
 				$scope.user.name = {};
+				$scope.feedback.errorText = "An error occured! Please try logging in again."
+				// error occurs and sets error text 
 			} else if (user) {
 				$scope.user.loggedIn = true;
 				$scope.user.name = user.displayName;
-				console.log("User: " + user.displayName);
+				// user is logged in, sets user.name object to user's   // displayName
 			} else {
 				$scope.user.loggedIn = false;
 				$scope.user.name = {};
@@ -97,9 +100,9 @@ wineControllers
 		}
 	}])
 
-///////
-
-	.controller('wineCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
+// Wine List Control grabs active cellar and populates a list of // wines in that cellar from the Firebase database
+// -----------
+	.controller('WineListCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
 		$scope.cellar = $routeParams.Cellar;
 
@@ -120,14 +123,15 @@ wineControllers
 
 	}])
 
-///////
+// Wine Add Controller controls a form allowing the owner of the // cellar to add a wine to that cellar.
+// -----------
 
-	.controller('addCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
+	.controller('WineAddCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
 		$scope.cellar = $routeParams.Cellar;
 		$scope.cellarOwner = $scope.getUserName($scope.cellar);
 
-		$scope.cellarRef = new Firebase('https://popping-fire-1713.firebaseio.com/cellars/	' + $scope.cellar + '/wines/');
+		$scope.cellarRef = new Firebase('https://cellared.firebaseio.com/cellars/	' + $scope.cellar + '/wines/');
 
 		$scope.resetWineData();
 
@@ -156,9 +160,11 @@ wineControllers
 		};
 	}])
 
-////////
+// Wine Detail Controller is a display of the current properties
+// of an active wine object from the wine list display
+// -----------
 
-	.controller('singleCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
+	.controller('WineDetailCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
 		$scope.cellar = $routeParams.Cellar;
 		$scope.cellarOwner = $scope.getUserName($scope.cellar);
@@ -167,9 +173,10 @@ wineControllers
 
 	}])
 
-////////
-
-	.controller('updateCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
+// Wine Update Controller is a form filled out with current wine
+// data allowing user, if owner, to edit the details of that wine
+// -----------
+	.controller('WineUpdateCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
 
 		$scope.cellar = $routeParams.Cellar;
 		$scope.cellarOwner = $scope.getUserName($scope.cellar);
@@ -187,6 +194,37 @@ wineControllers
 				$scope.feedback.responseText = "Oops! Something happened during the update! Please try again."
 			})
 		};
+	}])
+
+// Cellar List Controll populates a list of active cellars from
+// Firebase. Any user is allowed to view cellars, but can only add
+// cellars and wine if they are logged in.
+// -----------
+	.controller('CellarListCtrl', ['$scope', 'currentCellars', function($scope, currentCellars) {
+
+		$scope.getCellars = function(){
+			currentCellars.getCellarList().success(function(data) {
+				$scope.cellars = $scope.mapObjectToArray(data);
+
+				angular.forEach($scope.cellars, function(cellar) {
+					cellar.cellarSize = $scope.mapObjectToArray(cellar.wines).length;
+				})
+			
+			});
+		}();
+
+		$scope.orderProp = "name";
+
+		$scope.setOrderProp = function(prop) {
+			$scope.orderProp = prop;
+		}
+
+		$scope.addCellar = function() {
+			var newCellar = new Cellar($scope.cellarName, $scope.userName);
+			currentCellars.addCellar(newCellar).success(function() {
+				console.log("success");
+			}); 
+		}
 	}])
 
 })();

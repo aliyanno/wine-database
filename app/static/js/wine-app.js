@@ -10,27 +10,27 @@ wineApp.config(['$routeProvider',
 		$routeProvider.
 			when('/', {
 				templateUrl: 'static/partials/cellar-list.html',
-				controller: 'cellarCtrl'
+				controller: 'CellarListCtrl'
 			}).
 			when('/cellars', {
 				templateUrl: 'static/partials/cellar-list.html',
-				controller: 'cellarCtrl'
+				controller: 'CellarListCtrl'
 			}).
 			when('/cellars/:Cellar', {
 				templateUrl: 'static/partials/wine-list.html',
-				controller: 'wineCtrl',
+				controller: 'WineListCtrl',
 			}).
 			when('/cellars/:Cellar/add.html', {
 				templateUrl: 'static/partials/add-wine.html',
-				controller: 'addCtrl',
+				controller: 'WineAddCtrl',
 			}).
 			when('/cellars/:Cellar/wines/:Id', {
 				templateUrl: 'static/partials/single-wine.html',
-				controller: 'singleCtrl',
+				controller: 'WineDetailCtrl',
 			}).
 			when('/cellars/:Cellar/wines/:Id/update', {
 				templateUrl: 'static/partials/update-wine.html',
-				controller: 'updateCtrl',
+				controller: 'WineUpdateCtrl',
 			});
 	}
 ]);

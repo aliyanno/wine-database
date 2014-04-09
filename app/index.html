@@ -6,7 +6,7 @@
 	</head>
 
 
-	<body ng-controller="appCtrl">
+	<body ng-controller="CellarAppCtrl">
 		<div class="hd-hero">
 			<div class="container">
 				<button ng-hide="user.loggedIn" ng-click="login()" class="button hero-login">Log In</button>
@@ -23,10 +23,13 @@
 
 		<div ng-view id="viewer"></div>		
 
-		<script src='/static/js/angular.js'></script>
-		<script type="text/javascript" src="/static/js/angular-route.js"></script>
+<!-- Library JS files -->
+		<script type="text/javascript" src='/static/js/lib/angular.js'></script>
+		<script type="text/javascript" src="/static/js/lib/angular-route.js"></script>
 		<script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
 		<script src="https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js"></script>
+
+<!-- Custom JS files -->
 		<script type="text/javascript" src="/static/js/wine-app.js"></script>
 		<script type="text/javascript" src="/static/js/cellar-controllers.js"></script>
 		<script src="/static/js/wine-controllers.js">
