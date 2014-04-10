@@ -27,8 +27,8 @@ cellarServices
 					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars.json',}).
 						success(function (data) {
 							console.log(data);
-							output.cellars = data;
-						});
+							output = data;
+						}); // use an object to compartmentalize
 				},
 				addCellar: function (cellarData) {
 					return $http({method: 'PUT', url: 'https://cellared.firebaseio.com/cellars/' + cellarData.name + '.json', data: cellarData, });

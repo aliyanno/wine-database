@@ -74,7 +74,8 @@ cellarControllers
 	.controller('CellarListCtrl', ['$scope', 'currentCellars', 'utility', function($scope, currentCellars, utility) {
 
 		$scope.getCellars = function(){
-			currentCellars.getCellarList($scope);
+			var $scope.cellars = currentCellars.getCellarList(data);
+			// give this its own property object its not always effecting the scope
 
 			angular.forEach($scope.cellars, function (cellar) {
 				cellar.cellarSize = utility.listObjectProperties(cellar.wines).length;
