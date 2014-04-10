@@ -74,8 +74,9 @@ cellarControllers
 	.controller('CellarListCtrl', ['$scope', 'currentCellars', 'utility', function($scope, currentCellars, utility) {
 
 		$scope.getCellars = function(){
-			var $scope.cellars = currentCellars.getCellarList(data);
-			// give this its own property object its not always effecting the scope
+			currentCellars.getCellarList($scope);
+			console.log($scope.cellars);
+			// is it bad practice to pass $scope, how can I pass a throw-away variable then set it to scope.cellars--having trouble figuring out timing
 
 			angular.forEach($scope.cellars, function (cellar) {
 				cellar.cellarSize = utility.listObjectProperties(cellar.wines).length;
@@ -89,7 +90,7 @@ cellarControllers
 		}
 
 		$scope.addCellar = function() {
-			var newCellar = new Cellar($scope.cellarName, $scope.userName);
+			var newCellar = new utility.Cellar($scope.cellarName, $scope.user.name);
 			currentCellars.addCellar(newCellar); 
 		};
 	}])
@@ -202,14 +203,5 @@ cellarControllers
 			})
 		};
 	}])
-
-	// Creates a constructor for cellars to maintain consistency -- not totally sure where to put this
-	function Cellar (name, owner) {
-			this.name = name;
-			this.owner = owner;
-			this.date = new Date();
-			this.dateMade = ((this.date.getMonth() + 1) + '/' + (this.date.getDate()) + '/' + (this.date.getFullYear()));
-	};
-
 
 })();

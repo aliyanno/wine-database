@@ -26,8 +26,7 @@ cellarServices
 				getCellarList: function (output) {
 					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars.json',}).
 						success(function (data) {
-							console.log(data);
-							output = data;
+							output.cellars = listObjectProperties(data);
 						}); // use an object to compartmentalize
 				},
 				addCellar: function (cellarData) {
@@ -47,6 +46,8 @@ cellarServices
 			});
 			return array;
 		};
+
+		// Clears the $scope's wineData
 		this.resetWineData = function () {
 			var wineData = {
 				"available": true,
@@ -64,10 +65,18 @@ cellarServices
 				}
 			}
 		};
+
+		// A constructor for cellars to maintain consistency
+		this.Cellar = function (name, owner) {
+			this.name = name;
+			this.owner = owner;
+			this.date = new Date();
+			this.dateMade = ((this.date.getMonth() + 1) + '/' + (this.date.getDate()) + '/' + (this.date.getFullYear()));
+		};
 	})
 
 
-// not sure where to put this function, utility belt doesn't work since 
+// not sure where to put these function, utility belt doesn't work since 
 // it can't be called then in the factory function
 
 function listObjectProperties (wines) {
@@ -77,5 +86,6 @@ function listObjectProperties (wines) {
 	});
 	return array;
 };
+
 
 })();
