@@ -1,14 +1,14 @@
 (function() {
 	'use strict';
 
-var wineControllers = angular.module('wineControllers', []);
+var cellarControllers = angular.module('cellarControllers', []);
 
-wineControllers
+cellarControllers
 
 // Cellar App Controller sets up object structure and initial state of
 // app. It also controls the login/logout functionality through // Firebase
 // -----------
-	.controller('CellarAppCtrl', ['$scope', 'currentWines', 'currentCellars', function($scope, currentWines, currentCellars) {
+	.controller('CellarAppCtrl', ['$scope', 'currentWines', 'currentCellars', 'utility', function($scope, currentWines, currentCellars, utility) {
 
 		$scope.user = {};
 		$scope.wines = [];
@@ -19,49 +19,17 @@ wineControllers
 		};
 		$scope.modalOn = false;
 
-		$scope.mapObjectToArray = function(wines) {
-			var array = [];
-			angular.forEach(wines, function(wine) {
-				array.push(wine);
-			});
-			return array;
-		}
-
-		$scope.resetWineData = function() {
-			$scope.wineData = {
-				"available": true,
-				"quantity": 1,
-			};
-		}
-
-		$scope.getDrinkYear = function(lifespan, vintage) {
-			return parseInt(lifespan) + parseInt(vintage);
-		}
-
-		$scope.getWine = function(cellar, ID) {
-			currentWines.getWine(cellar, ID).success(function(data) {
-				$scope.wineData = data;
-			})
-			.error(function() {
-				$scope.feedback.updateText = "That wine doesn't exist in the database! Buy more wine!"
-			})
-		}
-
-		$scope.removeEmptyProperties = function(wineData) {
-			for (var prop in wineData) {
-				if (wineData.prop === "") {
-					delete wineData.prop;
-				}
-			}
-		}
-
-		$scope.addWineId = function(wine, id) {
-			wine.update({databaseId: id});
-		}
-
 		$scope.toggleModal = function() {
 			$scope.modalOn = !$scope.modalOn;
 		};
+
+// this should be changed in the service
+		$scope.getWine = function(cellar, ID) {
+			currentWines.getWine(cellar, ID)
+			.success(function(data) {
+				$scope.wineData = data;
+			});
+		};		
 
 		// Firebase auth & login
 
@@ -91,7 +59,7 @@ wineControllers
 			$scope.user.loggedIn = false;
 		}
 
-		// Check authorization
+		// put this into service as well
 
 		$scope.getUserName = function(cellar) {
 			currentCellars.getCellarOwner(cellar).success(function(data) {
@@ -100,16 +68,39 @@ wineControllers
 		}
 	}])
 
-// Wine List Control grabs active cellar and populates a list of // wines in that cellar from the Firebase database
+// Cellar List Controll populates a list of active cellars 
+// from Firebase. Any user is allowed to view cellars, but    // can only add cellars and wine if they are logged in.
 // -----------
-	.controller('WineListCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
+	.controller('CellarListCtrl', ['$scope', 'currentCellars', 'utility', function($scope, currentCellars, utility) {
+
+		$scope.getCellars = function(){
+			currentCellars.getCellarList($scope);
+
+			angular.forEach($scope.cellars, function (cellar) {
+				cellar.cellarSize = utility.listObjectProperties(cellar.wines).length;
+			});
+		}();
+
+		$scope.orderProp = "name";
+
+		$scope.setOrderProp = function(prop) {
+			$scope.orderProp = prop;
+		}
+
+		$scope.addCellar = function() {
+			var newCellar = new Cellar($scope.cellarName, $scope.userName);
+			currentCellars.addCellar(newCellar); 
+		};
+	}])
+
+// Wine List Control grabs active cellar and populates a list // of wines in that cellar from the Firebase database
+// -----------
+	.controller('WineListCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function($scope, $routeParams, currentWines, utility) {
 
 		$scope.cellar = $routeParams.Cellar;
 
 		$scope.getWinesList = function(cellar) {
-			currentWines.getWineList(cellar).success(function(data) {
-				$scope.wines = $scope.mapObjectToArray(data);
-			})
+			$scope.wines = currentWines.getWineList(cellar);
 		}
 		$scope.getWinesList($scope.cellar); 
 
@@ -123,17 +114,17 @@ wineControllers
 
 	}])
 
-// Wine Add Controller controls a form allowing the owner of the // cellar to add a wine to that cellar.
+// Wine Add Controller controls a form allowing the owner of // the cellar to add a wine to that cellar.
 // -----------
 
-	.controller('WineAddCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
+	.controller('WineAddCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function($scope, $routeParams, currentWines, utility) {
 
 		$scope.cellar = $routeParams.Cellar;
 		$scope.cellarOwner = $scope.getUserName($scope.cellar);
 
-		$scope.cellarRef = new Firebase('https://cellared.firebaseio.com/cellars/	' + $scope.cellar + '/wines/');
+		$scope.cellarRef = new Firebase('https://cellared.firebaseio.com/cellars/' + $scope.cellar + '/wines/');
 
-		$scope.resetWineData();
+		utility.resetWineData();
 
 		var newWine = $scope.wineData;
 		var onComplete = function(error) {
@@ -143,28 +134,42 @@ wineControllers
 				$scope.feedback.responseText = "Added!";
 			}
 		};
+// include this function as part of addWine
+		// $scope.addWineId = function(wine, id) {
+		// 	wine.update({databaseId: id});
+		// }
 
 		$scope.addWine = function() {
-			var age = $scope.getDrinkYear($scope.wineData.lifespan, $scope.wineData.vintage);
+			// gets 
+			var drinkYear = utility.getDrinkYear($scope.wineData.lifespan, $scope.wineData.vintage);
 			if (!isNaN(age)) {
-				newWine.age = age;
+				newWine.drinkYear = drinkYear;
 			}
 			/// Removes clutter of empty properties from angular form
-			$scope.removeEmptyProperties(newWine);
+			utility.removeEmptyProperties(newWine);
 
 			/// Adds a wine to the database and sets a unique databaseId to reference the wine object
 			var addedWine = $scope.cellarRef.push(newWine, onComplete);
+			// gets unique database id = "name"
 			var addedWineId = addedWine.name();
-
-			$scope.addWineId(addedWine, addedWineId);
+			
+			// updates wine on database to include it's unique id as another property
+			function addWineId (wine, wineId) {
+				wine.update({databaseId: id});
+			};
+			addWineId(addedWine, addedWineId);
+			
+			// updates wine on database to include it's unique id as another property
+			// $scope.addWineId(addedWine, addedWineId);
 		};
 	}])
 
-// Wine Detail Controller is a display of the current properties
-// of an active wine object from the wine list display
+// Wine Detail Controller is a display of the current 
+// properties of an active wine object from the wine list 
+// display
 // -----------
 
-	.controller('WineDetailCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
+	.controller('WineDetailCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function($scope, $routeParams, currentWines, utility) {
 
 		$scope.cellar = $routeParams.Cellar;
 		$scope.cellarOwner = $scope.getUserName($scope.cellar);
@@ -173,10 +178,11 @@ wineControllers
 
 	}])
 
-// Wine Update Controller is a form filled out with current wine
-// data allowing user, if owner, to edit the details of that wine
+// Wine Update Controller is a form filled out with current 
+// wine data allowing user, if owner, to edit the details of 
+// that wine
 // -----------
-	.controller('WineUpdateCtrl', ['$scope', '$routeParams', 'currentWines', function($scope, $routeParams, currentWines) {
+	.controller('WineUpdateCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function($scope, $routeParams, currentWines, utility) {
 
 		$scope.cellar = $routeParams.Cellar;
 		$scope.cellarOwner = $scope.getUserName($scope.cellar);
@@ -185,7 +191,7 @@ wineControllers
 
 		$scope.updateWine = function() {
 			var updatedWine = $scope.wineData;
-			updatedWine.age = $scope.getDrinkYear($scope.wineData.lifespan, $scope.wineData.vintage);
+			updatedWine.age = utility.getDrinkYear($scope.wineData.lifespan, $scope.wineData.vintage);
 
 			currentWines.updateWine($scope.cellar, updatedWine.databaseId, updatedWine).success(function() {
 				$scope.feedback.responseText = "Wine Updated";
@@ -196,35 +202,13 @@ wineControllers
 		};
 	}])
 
-// Cellar List Controll populates a list of active cellars from
-// Firebase. Any user is allowed to view cellars, but can only add
-// cellars and wine if they are logged in.
-// -----------
-	.controller('CellarListCtrl', ['$scope', 'currentCellars', function($scope, currentCellars) {
+	// Creates a constructor for cellars to maintain consistency -- not totally sure where to put this
+	function Cellar (name, owner) {
+			this.name = name;
+			this.owner = owner;
+			this.date = new Date();
+			this.dateMade = ((this.date.getMonth() + 1) + '/' + (this.date.getDate()) + '/' + (this.date.getFullYear()));
+	};
 
-		$scope.getCellars = function(){
-			currentCellars.getCellarList().success(function(data) {
-				$scope.cellars = $scope.mapObjectToArray(data);
-
-				angular.forEach($scope.cellars, function(cellar) {
-					cellar.cellarSize = $scope.mapObjectToArray(cellar.wines).length;
-				})
-			
-			});
-		}();
-
-		$scope.orderProp = "name";
-
-		$scope.setOrderProp = function(prop) {
-			$scope.orderProp = prop;
-		}
-
-		$scope.addCellar = function() {
-			var newCellar = new Cellar($scope.cellarName, $scope.userName);
-			currentCellars.addCellar(newCellar).success(function() {
-				console.log("success");
-			}); 
-		}
-	}])
 
 })();

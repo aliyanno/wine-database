@@ -1,7 +1,6 @@
 var wineApp = angular.module('wineApp', [
 	'ngRoute',
 	'cellarControllers',
-	'wineControllers',
 	'cellarServices',
 ]);
 
