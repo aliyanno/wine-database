@@ -59,9 +59,11 @@ cellarServices
 			};
 			return wine;
 		};
+
 		this.getDrinkYear = function (lifespan, vintage) {
 			return parseInt(lifespan, 10) + parseInt(vintage, 10);
 		};
+
 		this.removeEmptyProperties = function (wineData) {
 			for (var prop in wineData) {
 				if (wineData.prop === "") {
@@ -70,19 +72,19 @@ cellarServices
 			}
 		};
 
+		this.getUserName = function (cellar) {
+			currentCellars.getCellarOwner(cellar).success(function (data) {
+				console.log(data);
+				return data;
+			});
+		};
+
 		// A constructor for cellars to maintain consistency
 		this.Cellar = function (name, owner) {
 			this.name = name;
 			this.owner = owner;
 			this.date = new Date();
 			this.dateMade = ((this.date.getMonth() + 1) + '/' + (this.date.getDate()) + '/' + (this.date.getFullYear()));
-		};
-
-		this.getUserName = function (cellar) {
-			currentCellars.getCellarOwner(cellar).success(function (data) {
-				console.log(data);
-				return data;
-			});
 		};
 
 	}])

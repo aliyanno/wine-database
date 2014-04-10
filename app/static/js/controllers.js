@@ -11,30 +11,32 @@ cellarControllers
 	.controller('CellarAppCtrl', ['$scope', 'currentWines', 'currentCellars', 'utility', function ($scope, currentWines, currentCellars, utility) {
 
 		$scope.data = {
-			'user' : {},
 			'wines' : [],
 			'wine' : {},
 			'feedback' : {},
 			'modalOn' : false,
 		};
 
-		// Firebase auth & login
-
 		var dbRef = new Firebase('https://cellared.firebaseio.com');
 		var auth = FirebaseSimpleLogin(dbRef, function (error, user) {
 			if (error) {
-				$scope.data.user.loggedIn = false;
-				$scope.data.user.name = {};
-				$scope.data.feedback.errorText = "An error occured! Please try logging in again."
-				// error occurs and sets error text 
+				return $scope.data.user = {
+					'name' : null,
+					'error' : error,
+					'loggedIn' : false,
+				};
 			} else if (user) {
-				$scope.data.user.loggedIn = true;
-				$scope.data.user.name = user.displayName;
-				// user is logged in, sets user.name object to user's   // displayName
+				return $scope.data.user = {
+					'name' : user.displayName,
+					'error' : null,
+					'loggedIn' : true,
+				};
 			} else {
-				$scope.data.user.loggedIn = false;
-				$scope.data.user.name = {};
-				// user is logged out
+				return $scope.data.user = {
+					'name' : null,
+					'error' : null,
+					'loggedIn' : false,
+				};
 			}
 		});
 
@@ -44,7 +46,6 @@ cellarControllers
 
 		$scope.logout = function () {
 			auth.logout();
-			$scope.data.user.loggedIn = false;
 		};
 
 	}])
