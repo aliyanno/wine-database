@@ -1,10 +1,10 @@
-(function() {
+(function () {
 	'use strict';
 
 var cellarServices = angular.module('cellarServices', []);
 
 cellarServices
-	.factory('currentWines', ['$http', function($http) {
+	.factory('currentWines', ['$http', function ($http) {
 			return {
 				getWine: function (cellar, id, output) {
 					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines/' + id + '.json', });
@@ -25,7 +25,7 @@ cellarServices
 	}])
 
 // this one works 
-	.factory('currentCellars', ['$http', function($http) {
+	.factory('currentCellars', ['$http', function ($http) {
 			return {
 				getCellarList: function () {
 					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars.json',}).
@@ -42,7 +42,7 @@ cellarServices
 			};
 	}])
 
-	.service('utility', ['currentCellars', function(currentCellars) {
+	.service('utility', ['currentCellars', function (currentCellars) {
 		this.listObjectProperties = function (objects) {
 			var array = [];
 			angular.forEach(objects, function (object) {
@@ -62,7 +62,7 @@ cellarServices
 		this.getDrinkYear = function (lifespan, vintage) {
 			return parseInt(lifespan, 10) + parseInt(vintage, 10);
 		};
-		this.removeEmptyProperties = function(wineData) {
+		this.removeEmptyProperties = function (wineData) {
 			for (var prop in wineData) {
 				if (wineData.prop === "") {
 					delete wineData.prop;
