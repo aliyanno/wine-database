@@ -63,7 +63,7 @@ cellarControllers
 
 		$scope.getUserName = function(cellar) {
 			currentCellars.getCellarOwner(cellar).success(function(data) {
-				return data;
+				$scope.user.name = data;
 			})
 		}
 	}])
@@ -87,7 +87,7 @@ cellarControllers
 
 		$scope.setOrderProp = function(prop) {
 			$scope.orderProp = prop;
-		}
+		};
 
 		$scope.addCellar = function() {
 			var newCellar = new utility.Cellar($scope.cellarName, $scope.user.name);
@@ -176,7 +176,8 @@ cellarControllers
 		$scope.cellar = $routeParams.Cellar;
 		$scope.cellarOwner = $scope.getUserName($scope.cellar);
 
-		$scope.getWine($scope.cellar, $routeParams.Id);
+		// $scope.getWine($scope.cellar, $routeParams.Id);
+		currentWines.getWine($scope.cellar, $routeParams.Id, $scope);
 
 	}])
 

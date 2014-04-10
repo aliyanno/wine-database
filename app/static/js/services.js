@@ -6,8 +6,11 @@ var cellarServices = angular.module('cellarServices', []);
 cellarServices
 	.factory('currentWines', ['$http', function($http) {
 			return {
-				getWine: function (cellar, id) {
-					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines/' + id + '.json', })
+				getWine: function (cellar, id, output) {
+					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines/' + id + '.json', }).
+					success(function (data) {
+						output.wineData = data;
+					});
 				},		
 				updateWine: function (cellar, id, wineData) {
 					return $http({method: 'PUT', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines/' + id + '.json', data: wineData, })
