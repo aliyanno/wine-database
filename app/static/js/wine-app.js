@@ -20,15 +20,15 @@ wineApp.config(['$routeProvider',
 				controller: 'WineListCtrl',
 			}).
 			when('/cellars/:Cellar/add.html', {
-				templateUrl: 'static/partials/add-wine.html',
+				templateUrl: 'static/partials/wine-add.html',
 				controller: 'WineAddCtrl',
 			}).
 			when('/cellars/:Cellar/wines/:Id', {
-				templateUrl: 'static/partials/single-wine.html',
+				templateUrl: 'static/partials/wine-detail.html',
 				controller: 'WineDetailCtrl',
 			}).
 			when('/cellars/:Cellar/wines/:Id/update', {
-				templateUrl: 'static/partials/update-wine.html',
+				templateUrl: 'static/partials/wine-update.html',
 				controller: 'WineUpdateCtrl',
 			});
 	}

@@ -1,0 +1,43 @@
+<div class="content">
+	<div class="container">
+		<a ng-href="#/cellars/{{ data.cellar }}"><h1>{{ data.cellar }}</h1></a>
+		<div class="row" id="single-wine">
+			<div class="col col-2">	
+				<p>Producer</p>
+				<h2>{{ data.wine.producer }}</h2>
+				<p>Name</p>
+				<h2>{{ data.wine.wineName || "--" }}</h2>
+				<p>Variety</p>
+				<h2>{{ data.wine.variety }}</h2>
+				<p>Vintage</p>
+				<h2>{{ data.wine.vintage }}</h2>
+				<p>Optimal Drinking Year</p>
+				<h2>{{ data.wine.age }}</h2>
+			</div>
+			<div class="col col-2">
+				<p>Vineyard</p>
+				<h2>{{ data.wine.vineyard || "--" }}</h2>
+				<p>Appelation</p>
+				<h2>{{ data.wine.appelation || "--" }}</h2>
+				<p>Region</p>
+				<h2>
+					<span ng-if="wine.subregion2 == true">{{ data.wine.subregion2 + ',' }}</span> {{ data.wine.subregion1 }}
+				</h2>
+				<p>Country</p>
+				<h2>{{ data.wine.country }}</h2>
+				<p>Quantity</p>
+				<h2>{{ data.wine.quantity }}</h2>
+			</div>
+
+			<div class="button-box">
+				<a ng-hide="!data.user.loggedIn" ng-href="/#/cellars/{{ data.cellar }}/wines/{{ data.wine.databaseId }}/update">
+					<button class="button">Update</button>
+				</a>
+				<a ng-hide="data.user.loggedIn">
+					<button class="button disabled">Update</button>
+				</a>
+				<p ng-hide="data.user.loggedIn" class="note">Please login to make changes</p>
+			</div>
+		</div>
+	</div>
+</div>

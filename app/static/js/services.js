@@ -7,16 +7,16 @@ cellarServices
 	.factory('currentWines', ['$http', function($http) {
 			return {
 				getWine: function (cellar, id, output) {
-					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines/' + id + '.json', }).
-					success(function (data) {
-						output.wineData = data;
-					});
+					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines/' + id + '.json', });
 				},		
 				updateWine: function (cellar, id, wineData) {
 					return $http({method: 'PUT', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines/' + id + '.json', data: wineData, })
 				},
 				getWineList: function (cellar) {
-					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines.json', })
+					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines.json', }).
+						then(function (data) {
+							return listObjectProperties(data.data);
+					});
 				},
 				deleteWine: function (id) {
 					return $http({method: 'DELETE', url: 'https://cellared.firebaseio.com/wines/' + id + '.json', })
@@ -24,13 +24,14 @@ cellarServices
 			};
 	}])
 
+// this one works 
 	.factory('currentCellars', ['$http', function($http) {
 			return {
-				getCellarList: function (output) {
+				getCellarList: function () {
 					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars.json',}).
-						success(function (data) {
-							output.cellars = listObjectProperties(data);
-						}); // use an object to compartmentalize
+						then(function (data) {
+							return listObjectProperties(data.data);
+						});
 				},
 				addCellar: function (cellarData) {
 					return $http({method: 'PUT', url: 'https://cellared.firebaseio.com/cellars/' + cellarData.name + '.json', data: cellarData, });
@@ -41,7 +42,7 @@ cellarServices
 			};
 	}])
 
-	.service('utility', function() {
+	.service('utility', ['currentCellars', function(currentCellars) {
 		this.listObjectProperties = function (objects) {
 			var array = [];
 			angular.forEach(objects, function (object) {
@@ -51,12 +52,12 @@ cellarServices
 		};
 
 		// Clears the $scope's wineData
-		this.resetWineData = function () {
-			var wineData = {
+		this.resetWine = function () {
+			var wine = {
 				"available": true,
 				"quantity": 1,
 			};
-			return wineData;
+			return wine;
 		};
 		this.getDrinkYear = function (lifespan, vintage) {
 			return parseInt(lifespan, 10) + parseInt(vintage, 10);
@@ -76,19 +77,24 @@ cellarServices
 			this.date = new Date();
 			this.dateMade = ((this.date.getMonth() + 1) + '/' + (this.date.getDate()) + '/' + (this.date.getFullYear()));
 		};
-	})
 
+		this.getUserName = function (cellar) {
+			currentCellars.getCellarOwner(cellar).success(function (data) {
+				console.log(data);
+				return data;
+			});
+		};
 
-// not sure where to put these function, utility belt doesn't work since 
-// it can't be called then in the factory function
+	}])
 
-function listObjectProperties (wines) {
+/// not sure where to put this function since it is needed in the factories
+
+function listObjectProperties (objects) {
 	var array = [];
-	angular.forEach(wines, function (wine) {
-		array.push(wine);
+	angular.forEach(objects, function (object) {
+		array.push(object);
 	});
 	return array;
 };
-
 
 })();

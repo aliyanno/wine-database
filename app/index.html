@@ -9,8 +9,8 @@
 	<body ng-controller="CellarAppCtrl">
 		<div class="hd-hero">
 			<div class="container">
-				<button ng-hide="user.loggedIn" ng-click="login()" class="button hero-login">Log In</button>
-				<button ng-hide="!user.loggedIn" ng-click="logout()" class="button hero-login">Log Out</button>
+				<button ng-hide="data.user.loggedIn" ng-click="login()" class="button hero-login">Log In</button>
+				<button ng-hide="!data.user.loggedIn" ng-click="logout()" class="button hero-login">Log Out</button>
 				<a href="#">
 					<div class="wine-hd">
 						<h1>The Wine Cellar</h1>
