@@ -123,9 +123,9 @@ cellarControllers
 
 	.controller('WineDetailCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function ($scope, $routeParams, currentWines, utility) {
 
-		// checks to see if data.wine has active wine data
-		// since wine.producer only exists after data is retrieved
-		// if not, pulls wine data from Firebase
+		// checks to see if data.wine is current for the active
+		// wine by comparing to the route URL. If not, gets new
+		// wine data 
 
 		if ($routeParams.Id !== $scope.data.wine.databaseId) {
 			currentWines.getWine($scope.data.cellar, $routeParams.Id).then(function (data) {
@@ -140,11 +140,15 @@ cellarControllers
 
 	.controller('WineAddCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function ($scope, $routeParams, currentWines, utility) {
 
+		// Creates a reference to the firebase to allow for posting
+		// of new wine data with a unique id using Firebase's
+		// javascript .push()
 		$scope.data.cellarRef = new Firebase('https://cellared.firebaseio.com/cellars/' + $scope.data.cellar + '/wines/');
 
 		utility.resetWine();
-
 		var newWine = $scope.data.wine;
+
+		// creates a callback for the server post
 		var onComplete = function (error) {
 			if (error) {
 				$scope.data.feedback.responseText = "Failed";
@@ -158,12 +162,14 @@ cellarControllers
 			if (!isNaN(drinkYear)) {
 				newWine.drinkYear = drinkYear;
 			}
-			/// Removes clutter of empty properties from angular form
+			/// Removes clutter of empty properties from form
 			utility.removeEmptyProperties(newWine);
 
-			/// Adds a wine to the database and sets a unique databaseId to reference the wine object
+			/// Adds a wine to the database and sets a unique databaseId 
+			// to reference the wine object
 			var addedWine = $scope.data.cellarRef.push(newWine, onComplete);
-			// gets unique database id = "name"
+
+			// gets unique database id
 			var wineId = addedWine.name();
 			
 			// updates wine on database to include it's unique id as another property

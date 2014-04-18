@@ -23,8 +23,7 @@ cellarServices
 				},
 			};
 	}])
-
-// this one works 
+ 
 	.factory('currentCellars', ['$http', function ($http) {
 			return {
 				getCellarList: function () {
