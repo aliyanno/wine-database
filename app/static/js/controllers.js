@@ -15,30 +15,39 @@ cellarControllers
 			'wine' : {},
 			'feedback' : {},
 			'modalOn' : false,
+			'user' : {
+				'name' : null,
+				'error' : null,
+				'loggedIn' : false,
+			},
 		};
 
 		var dbRef = new Firebase('https://cellared.firebaseio.com');
 		var auth = FirebaseSimpleLogin(dbRef, function (error, user) {
-			if (error) {
-				return $scope.data.user = {
-					'name' : null,
-					'error' : error,
-					'loggedIn' : false,
-				};
-			} else if (user) {
-				return $scope.data.user = {
-					'name' : user.displayName,
-					'error' : null,
-					'loggedIn' : true,
-				};
-			} else {
-				return $scope.data.user = {
-					'name' : null,
-					'error' : null,
-					'loggedIn' : false,
-				};
-			}
+			$scope.$apply(function () {
+				console.log(user);
+				if (error) {
+					return $scope.data.user = {
+						'name' : null,
+						'error' : error,
+						'loggedIn' : false,
+					};
+				} else if (user) {
+					return $scope.data.user = {
+						'name' : user.displayName,
+						'error' : null,
+						'loggedIn' : true,
+					};
+				} else {
+					return $scope.data.user = {
+						'name' : null,
+						'error' : null,
+						'loggedIn' : false,
+					};
+				}
+			});
 		});
+
 
 		$scope.login = function () {
 			auth.login('google');
