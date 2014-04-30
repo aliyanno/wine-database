@@ -39,7 +39,7 @@ cellarServices
 			};
 	}])
 
-	.service('utility', ['currentCellars', function (currentCellars) {
+	.service('utility', ['Cellars', function (Cellars) {
 		this.listObjectProperties = function (objects) {
 			var array = [];
 			angular.forEach(objects, function (object) {

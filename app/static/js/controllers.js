@@ -25,7 +25,6 @@ cellarControllers
 		var dbRef = new Firebase('https://cellared.firebaseio.com');
 		var auth = FirebaseSimpleLogin(dbRef, function (error, user) {
 			$scope.$apply(function () {
-				console.log(user);
 				if (error) {
 					return $scope.data.user = {
 						'name' : null,
@@ -152,7 +151,10 @@ cellarControllers
 		// Creates a reference to the firebase to allow for posting
 		// of new wine data with a unique id using Firebase's
 		// javascript .push()
-		$scope.data.cellarRef = new Firebase('https://cellared.firebaseio.com/cellars/' + $scope.data.cellar + '/wines/');
+		var dataUrl = 'https://cellared.firebaseio.com/cellars/';
+
+		// Consider switching back to REST API
+		$scope.data.cellarRef = new Firebase(dataUrl + $scope.data.cellar + '/wines/');
 
 		utility.resetWine();
 		var newWine = $scope.data.wine;
