@@ -25,7 +25,7 @@ cellarServices
 	.factory('Cellars', ['$http', function ($http) {
 			return {
 				getCellarList: function () {
-					return $http({method: 'GET', url: dataUrl + 'json',}).
+					return $http({method: 'GET', url: dataUrl + '.json',}).
 						then(function (data) {
 							return listObjectProperties(data.data);
 						});
