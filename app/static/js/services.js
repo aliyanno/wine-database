@@ -2,41 +2,39 @@
 	'use strict';
 
 var cellarServices = angular.module('cellarServices', []);
+var dataUrl = 'https://cellared.firebaseio.com/cellars/';
 
 cellarServices
-	.factory('currentWines', ['$http', function ($http) {
+	.factory('Wines', ['$http', function ($http) {
 			return {
 				getWine: function (cellar, id, output) {
-					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines/' + id + '.json', });
+					return $http({method: 'GET', url: dataUrl + cellar + '/wines/' + id + '.json', });
 				},		
 				updateWine: function (cellar, id, wineData) {
-					return $http({method: 'PUT', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines/' + id + '.json', data: wineData, })
+					return $http({method: 'PUT', url: dataUrl + cellar + '/wines/' + id + '.json', data: wineData, })
 				},
 				getWineList: function (cellar) {
-					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines.json', }).
+					return $http({method: 'GET', url: dataUrl + cellar + '/wines.json', }).
 						then(function (data) {
 							return listObjectProperties(data.data);
 					});
 				},
-				deleteWine: function (id) {
-					return $http({method: 'DELETE', url: 'https://cellared.firebaseio.com/wines/' + id + '.json', })
-				},
 			};
 	}])
  
-	.factory('currentCellars', ['$http', function ($http) {
+	.factory('Cellars', ['$http', function ($http) {
 			return {
 				getCellarList: function () {
-					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars.json',}).
+					return $http({method: 'GET', url: dataUrl + 'json',}).
 						then(function (data) {
 							return listObjectProperties(data.data);
 						});
 				},
 				addCellar: function (cellarData) {
-					return $http({method: 'PUT', url: 'https://cellared.firebaseio.com/cellars/' + cellarData.name + '.json', data: cellarData, });
+					return $http({method: 'PUT', url: dataUrl + cellarData.name + '.json', data: cellarData, });
 				},
 				getCellarOwner: function (cellar) {
-					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/owner.json', });
+					return $http({method: 'GET', url: dataUrl + cellar + '/owner.json', });
 				},
 			};
 	}])

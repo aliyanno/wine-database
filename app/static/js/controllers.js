@@ -8,7 +8,7 @@ cellarControllers
 // Cellar App Controller sets up object structure and initial state of
 // app. It also controls the login/logout functionality through // Firebase
 // -----------
-	.controller('CellarAppCtrl', ['$scope', 'currentWines', 'currentCellars', 'utility', function ($scope, currentWines, currentCellars, utility) {
+	.controller('CellarAppCtrl', ['$scope', 'Wines', 'Cellars', 'utility', function ($scope, Wines, Cellars, utility) {
 
 		$scope.data = {
 			'wines' : [],
@@ -63,7 +63,7 @@ cellarControllers
 // from Firebase. Any user is allowed to view cellars, but    
 // can only add cellars and wine if they are logged in.
 // -----------
-	.controller('CellarListCtrl', ['$scope', 'currentCellars', 'utility', function ($scope, currentCellars, utility) {
+	.controller('CellarListCtrl', ['$scope', 'Cellars', 'utility', function ($scope, Cellars, utility) {
 
 		// resets data.cellar so that there is no data
 		// carry-over when selecting another cellar
@@ -74,7 +74,7 @@ cellarControllers
 		};
 
 		$scope.getCellars = function (){
-			currentCellars.getCellarList().then(function (data) {
+			Cellars.getCellarList().then(function (data) {
 				$scope.data.cellars = data;
 
 				// once .cellars is defined, get number of wines
@@ -93,14 +93,14 @@ cellarControllers
 
 		$scope.addCellar = function () {
 			var newCellar = new utility.Cellar($scope.data.cellar, $scope.data.user.name);
-			currentCellars.addCellar(newCellar); 
+			Cellars.addCellar(newCellar); 
 		};
 	}])
 
 // Wine List Control grabs active cellar and populates a list 
 // of wines in that cellar from the Firebase database
 // -----------
-	.controller('WineListCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function ($scope, $routeParams, currentWines, utility) {
+	.controller('WineListCtrl', ['$scope', '$routeParams', 'Wines', 'utility', function ($scope, $routeParams, Wines, utility) {
 
 		// sets the active cellar from the url created in adding or selecting a 
 		// cellar
@@ -111,7 +111,7 @@ cellarControllers
 		utility.resetWine();
 
 		$scope.getWinesList = function (cellar) {
-			currentWines.getWineList(cellar).then(function (data) {
+			Wines.getWineList(cellar).then(function (data) {
 				$scope.data.wines = data;
 			});
 		}; 
@@ -130,14 +130,14 @@ cellarControllers
 // display
 // -----------
 
-	.controller('WineDetailCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function ($scope, $routeParams, currentWines, utility) {
+	.controller('WineDetailCtrl', ['$scope', '$routeParams', 'Wines', 'utility', function ($scope, $routeParams, Wines, utility) {
 
 		// checks to see if data.wine is current for the active
 		// wine by comparing to the route URL. If not, gets new
 		// wine data 
 
 		if ($routeParams.Id !== $scope.data.wine.databaseId) {
-			currentWines.getWine($scope.data.cellar, $routeParams.Id).then(function (data) {
+			Wines.getWine($scope.data.cellar, $routeParams.Id).then(function (data) {
 				$scope.data.wine = data.data;
 			});
 		}
@@ -147,7 +147,7 @@ cellarControllers
 // the cellar to add a wine to that cellar.
 // -----------
 
-	.controller('WineAddCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function ($scope, $routeParams, currentWines, utility) {
+	.controller('WineAddCtrl', ['$scope', '$routeParams', 'Wines', 'utility', function ($scope, $routeParams, Wines, utility) {
 
 		// Creates a reference to the firebase to allow for posting
 		// of new wine data with a unique id using Firebase's
@@ -193,13 +193,13 @@ cellarControllers
 // wine data allowing user, if owner, to edit the details of 
 // that wine
 // -----------
-	.controller('WineUpdateCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function ($scope, $routeParams, currentWines, utility) {
+	.controller('WineUpdateCtrl', ['$scope', '$routeParams', 'Wines', 'utility', function ($scope, $routeParams, Wines, utility) {
 
 		$scope.updateWine = function () {
 			var updatedWine = $scope.data.wine;
 			updatedWine.drinkYear = utility.getDrinkYear($scope.data.wine.lifespan, $scope.data.wine.vintage);
 
-			currentWines.updateWine($scope.data.cellar, updatedWine.databaseId, updatedWine).success(function () {
+			Wines.updateWine($scope.data.cellar, updatedWine.databaseId, updatedWine).success(function () {
 					$scope.data.feedback.responseText = "Wine Updated";
 				})
 				.error(function () {
