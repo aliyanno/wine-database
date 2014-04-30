@@ -9,7 +9,10 @@ cellarServices
 			return {
 				getWine: function (cellar, id, output) {
 					return $http({method: 'GET', url: dataUrl + cellar + '/wines/' + id + '.json', });
-				},		
+				},
+				addWine: function (cellar) {
+					return $http({method: 'POST', url: dataUrl + cellar + '/wines.json', });
+				},
 				updateWine: function (cellar, id, wineData) {
 					return $http({method: 'PUT', url: dataUrl + cellar + '/wines/' + id + '.json', data: wineData, })
 				},

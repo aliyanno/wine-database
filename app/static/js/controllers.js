@@ -8,7 +8,7 @@ cellarControllers
 // Cellar App Controller sets up object structure and initial state of
 // app. It also controls the login/logout functionality through // Firebase
 // -----------
-	.controller('CellarAppCtrl', ['$scope', 'Wines', 'Cellars', function ($scope, Wines, Cellars) {
+	.controller('CellarAppCtrl', ['$scope', function ($scope) {
 
 		$scope.data = {
 			'wines' : [],
@@ -19,7 +19,7 @@ cellarControllers
 				'name' : null,
 				'error' : null,
 				'loggedIn' : false,
-			},
+			}
 		};
 
 		var dbRef = new Firebase('https://cellared.firebaseio.com');
