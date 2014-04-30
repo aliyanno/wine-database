@@ -60,9 +60,9 @@
 	</div>
 	<div class="modal-body">
 		<h4>Name your new cellar:</h4>
-		<input ng-model="data.cellar" />
+		<input ng-model="data.cellar.name" />
 		<a>
-			<a ng-href="/#/cellars/{{ data.cellar }}" ng-click="addCellar(); toggleModal()" class="button">Add Cellar</a>
+			<a ng-href="/#/cellars/{{ data.cellar.name }}" ng-click="addCellar(); toggleModal()" class="button">Add Cellar</a>
 		</a>
 	</div>
 </div>

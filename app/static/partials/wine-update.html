@@ -2,7 +2,7 @@
 
 <div class="content">
 	<div class="container">
-	<a ng-href="#/cellars/{{ data.cellar }}"><h1>{{ data.cellar }}</h1></a>
+	<a ng-href="#/cellars/{{ data.cellar.name }}"><h1>{{ data.cellar.name }}</h1></a>
 		<h2>Update a Wine</h2>
 		<div class="row" id="form-wine">
 			<div class="col col-2">
@@ -34,7 +34,7 @@
 
 		<div class="button-box">
 			<button class="button add-button" ng-click="updateWine()">
-				<a ng-href="/#/cellars/{{ data.cellar }}/wines/{{ data.wine.databaseId }}">
+				<a ng-href="/#/cellars/{{ data.cellar.name }}/wines/{{ data.wine.databaseId }}">
 				Update
 				</a>
 			</button>

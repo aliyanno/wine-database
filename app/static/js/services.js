@@ -14,8 +14,8 @@ cellarServices
 				},
 				getWineList: function (cellar) {
 					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/wines.json', }).
-						then(function (data) {
-							return listObjectProperties(data.data);
+						then(function (response) {
+							return listObjectProperties(response.data);
 					});
 				},
 				deleteWine: function (id) {
@@ -28,15 +28,18 @@ cellarServices
 			return {
 				getCellarList: function () {
 					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars.json',}).
-						then(function (data) {
-							return listObjectProperties(data.data);
+						then(function (response) {
+							return listObjectProperties(response.data);
 						});
 				},
 				addCellar: function (cellarData) {
 					return $http({method: 'PUT', url: 'https://cellared.firebaseio.com/cellars/' + cellarData.name + '.json', data: cellarData, });
 				},
 				getCellarOwner: function (cellar) {
-					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/owner.json', });
+					return $http({method: 'GET', url: 'https://cellared.firebaseio.com/cellars/' + cellar + '/owner.json', }).
+						then(function (response) {
+							return response.data.toString();
+						});
 				},
 			};
 	}])
@@ -71,10 +74,10 @@ cellarServices
 			}
 		};
 
-		this.getUserName = function (cellar) {
-			currentCellars.getCellarOwner(cellar).success(function (data) {
-				console.log(data);
-				return data;
+		this.getOwnerName = function (cellar) {
+			currentCellars.getCellarOwner(cellar).then(function (response) {
+				console.log(response.data);
+				return response.data;
 			});
 		};
 

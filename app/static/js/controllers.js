@@ -11,6 +11,8 @@ cellarControllers
 	.controller('CellarAppCtrl', ['$scope', 'currentWines', 'currentCellars', 'utility', function ($scope, currentWines, currentCellars, utility) {
 
 		$scope.data = {
+			'cellars' : [],
+			'cellar' : {},
 			'wines' : [],
 			'wine' : {},
 			'feedback' : {},
@@ -25,7 +27,6 @@ cellarControllers
 		var dbRef = new Firebase('https://cellared.firebaseio.com');
 		var auth = FirebaseSimpleLogin(dbRef, function (error, user) {
 			$scope.$apply(function () {
-				console.log(user);
 				if (error) {
 					return $scope.data.user = {
 						'name' : null,
@@ -67,15 +68,15 @@ cellarControllers
 
 		// resets data.cellar so that there is no data
 		// carry-over when selecting another cellar
-		$scope.data.cellar = null;
+		$scope.data.cellar = {};
 
 		$scope.toggleModal = function () {
 			$scope.data.modalOn = !$scope.data.modalOn;
 		};
 
 		$scope.getCellars = function (){
-			currentCellars.getCellarList().then(function (data) {
-				$scope.data.cellars = data;
+			currentCellars.getCellarList().then(function (response) {
+				$scope.data.cellars = response;
 
 				// once .cellars is defined, get number of wines
 				angular.forEach($scope.data.cellars, function (cellar) {
@@ -92,7 +93,7 @@ cellarControllers
 		};
 
 		$scope.addCellar = function () {
-			var newCellar = new utility.Cellar($scope.data.cellar, $scope.data.user.name);
+			var newCellar = new utility.Cellar($scope.data.cellar.name, $scope.data.user.name);
 			currentCellars.addCellar(newCellar); 
 		};
 	}])
@@ -100,22 +101,33 @@ cellarControllers
 // Wine List Control grabs active cellar and populates a list 
 // of wines in that cellar from the Firebase database
 // -----------
-	.controller('WineListCtrl', ['$scope', '$routeParams', 'currentWines', 'utility', function ($scope, $routeParams, currentWines, utility) {
+	.controller('WineListCtrl', ['$scope', '$routeParams', 'currentWines', 'currentCellars', 'utility', function ($scope, $routeParams, currentWines, currentCellars, utility) {
 
 		// sets the active cellar from the url created in adding or selecting a 
 		// cellar
-		$scope.data.cellar = $routeParams.Cellar;
+		$scope.data.cellar.name = $routeParams.Cellar;
+		
+		// Gets the cellar owner attached to the active cellar and makes it
+		// available to the scope
+		$scope.getCellarOwner = function (cellar) {
+			currentCellars.getCellarOwner(cellar)
+			.then(function (response) {
+				$scope.data.cellar.owner = response;
+			});
+		};
+
+		$scope.getCellarOwner($scope.data.cellar.name);
 
 		// makes sure there is no data carry-over when
 		// viewing another wine
 		utility.resetWine();
 
 		$scope.getWinesList = function (cellar) {
-			currentWines.getWineList(cellar).then(function (data) {
-				$scope.data.wines = data;
+			currentWines.getWineList(cellar).then(function (response) {
+				$scope.data.wines = response;
 			});
 		}; 
-		$scope.getWinesList($scope.data.cellar); 
+		$scope.getWinesList($scope.data.cellar.name); 
 
 		$scope.data.orderProp = "producer";
 
@@ -137,8 +149,9 @@ cellarControllers
 		// wine data 
 
 		if ($routeParams.Id !== $scope.data.wine.databaseId) {
-			currentWines.getWine($scope.data.cellar, $routeParams.Id).then(function (data) {
-				$scope.data.wine = data.data;
+			$scope.data.cellar.name = $routeParams.Cellar;
+			currentWines.getWine($scope.data.cellar.name, $routeParams.Id).then(function (response) {
+				$scope.data.wine = response.data;
 			});
 		}
 	}])
@@ -152,7 +165,7 @@ cellarControllers
 		// Creates a reference to the firebase to allow for posting
 		// of new wine data with a unique id using Firebase's
 		// javascript .push()
-		$scope.data.cellarRef = new Firebase('https://cellared.firebaseio.com/cellars/' + $scope.data.cellar + '/wines/');
+		$scope.data.cellarRef = new Firebase('https://cellared.firebaseio.com/cellars/' + $scope.data.cellar.name + '/wines/');
 
 		utility.resetWine();
 		var newWine = $scope.data.wine;
@@ -199,7 +212,7 @@ cellarControllers
 			var updatedWine = $scope.data.wine;
 			updatedWine.drinkYear = utility.getDrinkYear($scope.data.wine.lifespan, $scope.data.wine.vintage);
 
-			currentWines.updateWine($scope.data.cellar, updatedWine.databaseId, updatedWine).success(function () {
+			currentWines.updateWine($scope.data.cellar.name, updatedWine.databaseId, updatedWine).success(function () {
 					$scope.data.feedback.responseText = "Wine Updated";
 				})
 				.error(function () {
