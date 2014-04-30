@@ -1,3 +1,6 @@
+(function () {
+	'use strict';
+
 var wineApp = angular.module('wineApp', [
 	'ngRoute',
 	'cellarControllers',
@@ -33,3 +36,5 @@ wineApp.config(['$routeProvider',
 			});
 	}
 ]);
+
+})();

@@ -33,11 +33,8 @@
 		</div>
 
 		<div class="button-box">
-			<button class="button add-button" ng-click="addWine()">
-				<a href="#/cellars/{{ data.cellar }}">
-				Add Wine
-				</a>
-			</button>
+			<a ng-href="#/cellars/{{ data.cellar }}" class="button" ng-click="addWine()">Add Wine
+			</a>
 
 			<button class="button" ng-click="resetWine()">Clear</button>
 			

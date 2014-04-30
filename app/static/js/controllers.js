@@ -8,7 +8,7 @@ cellarControllers
 // Cellar App Controller sets up object structure and initial state of
 // app. It also controls the login/logout functionality through // Firebase
 // -----------
-	.controller('CellarAppCtrl', ['$scope', 'Wines', 'Cellars', 'utility', function ($scope, Wines, Cellars, utility) {
+	.controller('CellarAppCtrl', ['$scope', 'Wines', 'Cellars', function ($scope, Wines, Cellars) {
 
 		$scope.data = {
 			'wines' : [],
@@ -62,7 +62,7 @@ cellarControllers
 // from Firebase. Any user is allowed to view cellars, but    
 // can only add cellars and wine if they are logged in.
 // -----------
-	.controller('CellarListCtrl', ['$scope', 'Cellars', 'utility', function ($scope, Cellars, utility) {
+	.controller('CellarListCtrl', ['$scope', 'Cellars', function ($scope, Cellars) {
 
 		// resets data.cellar so that there is no data
 		// carry-over when selecting another cellar
@@ -78,7 +78,11 @@ cellarControllers
 
 				// once .cellars is defined, get number of wines
 				angular.forEach($scope.data.cellars, function (cellar) {
-					cellar.cellarSize = utility.listObjectProperties(cellar.wines).length;
+					var wineArray = [];
+					angular.forEach(cellar.wines, function (wine) {
+						wineArray.push(wine);
+					})
+					cellar.cellarSize = wineArray.length;
 				});
 			});
 		}();
@@ -90,8 +94,15 @@ cellarControllers
 			$scope.data.orderProp = prop;
 		};
 
+		function Cellar (name, owner) {
+			this.name = name;
+			this.owner = owner;
+			this.date = new Date();
+			this.dateMade = ((this.date.getMonth() + 1) + '/' + (this.date.getDate()) + '/' + (this.date.getFullYear()));
+		};
+
 		$scope.addCellar = function () {
-			var newCellar = new utility.Cellar($scope.data.cellar, $scope.data.user.name);
+			var newCellar = new Cellar($scope.data.cellar, $scope.data.user.name);
 			Cellars.addCellar(newCellar); 
 		};
 	}])
@@ -99,7 +110,7 @@ cellarControllers
 // Wine List Control grabs active cellar and populates a list 
 // of wines in that cellar from the Firebase database
 // -----------
-	.controller('WineListCtrl', ['$scope', '$routeParams', 'Wines', 'utility', function ($scope, $routeParams, Wines, utility) {
+	.controller('WineListCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
 
 		// sets the active cellar from the url created in adding or selecting a 
 		// cellar
@@ -107,7 +118,10 @@ cellarControllers
 
 		// makes sure there is no data carry-over when
 		// viewing another wine
-		utility.resetWine();
+		$scope.data.wine = {
+			"available": true,
+			"quantity": 1,
+		};
 
 		$scope.getWinesList = function (cellar) {
 			Wines.getWineList(cellar).then(function (data) {
@@ -129,7 +143,7 @@ cellarControllers
 // display
 // -----------
 
-	.controller('WineDetailCtrl', ['$scope', '$routeParams', 'Wines', 'utility', function ($scope, $routeParams, Wines, utility) {
+	.controller('WineDetailCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
 
 		// checks to see if data.wine is current for the active
 		// wine by comparing to the route URL. If not, gets new
@@ -146,7 +160,7 @@ cellarControllers
 // the cellar to add a wine to that cellar.
 // -----------
 
-	.controller('WineAddCtrl', ['$scope', '$routeParams', 'Wines', 'utility', function ($scope, $routeParams, Wines, utility) {
+	.controller('WineAddCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
 
 		// Creates a reference to the firebase to allow for posting
 		// of new wine data with a unique id using Firebase's
@@ -156,7 +170,11 @@ cellarControllers
 		// Consider switching back to REST API
 		$scope.data.cellarRef = new Firebase(dataUrl + $scope.data.cellar + '/wines/');
 
-		utility.resetWine();
+		$scope.data.wine = {
+				"available": true,
+				"quantity": 1,
+			};
+
 		var newWine = $scope.data.wine;
 
 		// creates a callback for the server post
@@ -169,12 +187,19 @@ cellarControllers
 		};
 
 		$scope.addWine = function () {
-			var drinkYear = utility.getDrinkYear($scope.data.wine.lifespan, $scope.data.wine.vintage);
+
+			var drinkYear = parseInt(newWine.lifespan, 10) + parseInt(newWine.vintage, 10);
 			if (!isNaN(drinkYear)) {
 				newWine.drinkYear = drinkYear;
 			}
 			/// Removes clutter of empty properties from form
-			utility.removeEmptyProperties(newWine);
+			function removeEmptyProperties (wine) {
+				for (var prop in wine) {
+					if (wine.prop === "") {
+						delete wine.prop;
+					}
+				}
+			}(newWine);
 
 			/// Adds a wine to the database and sets a unique databaseId 
 			// to reference the wine object
@@ -195,11 +220,15 @@ cellarControllers
 // wine data allowing user, if owner, to edit the details of 
 // that wine
 // -----------
-	.controller('WineUpdateCtrl', ['$scope', '$routeParams', 'Wines', 'utility', function ($scope, $routeParams, Wines, utility) {
+	.controller('WineUpdateCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
+
+		var updatedWine = $scope.data.wine;
 
 		$scope.updateWine = function () {
-			var updatedWine = $scope.data.wine;
-			updatedWine.drinkYear = utility.getDrinkYear($scope.data.wine.lifespan, $scope.data.wine.vintage);
+			var drinkYear = parseInt(updatedWine.lifespan, 10) + parseInt(updatedWine.vintage, 10);
+			if (!isNaN(drinkYear)) {
+				updatedWine.drinkYear = drinkYear;
+			}
 
 			Wines.updateWine($scope.data.cellar, updatedWine.databaseId, updatedWine).success(function () {
 					$scope.data.feedback.responseText = "Wine Updated";
