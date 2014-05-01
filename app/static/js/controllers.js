@@ -112,8 +112,7 @@ cellarControllers
 // -----------
 	.controller('WineListCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
 
-		// sets the active cellar from the url created in adding or selecting a 
-		// cellar
+		// sets the active cellar from the url created in adding or selecting a cellar
 		$scope.data.cellar = $routeParams.Cellar;
 
 		// makes sure there is no data carry-over when
@@ -124,8 +123,8 @@ cellarControllers
 		};
 
 		$scope.getWinesList = function (cellar) {
-			Wines.getWineList(cellar).then(function (data) {
-				$scope.data.wines = data;
+			Wines.getWineList(cellar).then(function (response) {
+				$scope.data.wines = response;
 			});
 		}; 
 		$scope.getWinesList($scope.data.cellar); 
@@ -160,15 +159,7 @@ cellarControllers
 // the cellar to add a wine to that cellar.
 // -----------
 
-	.controller('WineAddCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
-
-		// Creates a reference to the firebase to allow for posting
-		// of new wine data with a unique id using Firebase's
-		// javascript .push()
-		var dataUrl = 'https://cellared.firebaseio.com/cellars/';
-
-		// Consider switching back to REST API
-		$scope.data.cellarRef = new Firebase(dataUrl + $scope.data.cellar + '/wines/');
+	.controller('WineAddCtrl', ['$scope', 'Wines', function ($scope, Wines) {
 
 		$scope.data.wine = {
 				"available": true,
@@ -177,21 +168,12 @@ cellarControllers
 
 		var newWine = $scope.data.wine;
 
-		// creates a callback for the server post
-		var onComplete = function (error) {
-			if (error) {
-				$scope.data.feedback.responseText = "Failed";
-			} else {
-				$scope.data.feedback.responseText = "Added!";
-			}
-		};
-
 		$scope.addWine = function () {
-
 			var drinkYear = parseInt(newWine.lifespan, 10) + parseInt(newWine.vintage, 10);
 			if (!isNaN(drinkYear)) {
 				newWine.drinkYear = drinkYear;
 			}
+
 			/// Removes clutter of empty properties from form
 			function removeEmptyProperties (wine) {
 				for (var prop in wine) {
@@ -201,18 +183,19 @@ cellarControllers
 				}
 			}(newWine);
 
-			/// Adds a wine to the database and sets a unique databaseId 
-			// to reference the wine object
-			var addedWine = $scope.data.cellarRef.push(newWine, onComplete);
+			// Adds a wine to the database and sets a unique databaseId to reference the wine object
+			Wines.addWine($scope.data.cellar, newWine)
+				.success(function (response) {
+					var wineId = response.name;
 
-			// gets unique database id
-			var wineId = addedWine.name();
-			
-			// updates wine on database to include it's unique id as another property
-			function addWineId (wine, wineId) {
-				wine.update({databaseId: wineId});
-			};
-			addWineId(addedWine, wineId);
+					// Updates the new wine with a unique Id
+					Wines.updateWine($scope.data.cellar, wineId, { databaseId: wineId });
+
+					// Updates the cellar wine list
+					Wines.getWineList($scope.data.cellar).then(function (response) {
+						$scope.data.wines = response;
+					});
+			});
 		};
 	}])
 
@@ -220,7 +203,7 @@ cellarControllers
 // wine data allowing user, if owner, to edit the details of 
 // that wine
 // -----------
-	.controller('WineUpdateCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
+	.controller('WineUpdateCtrl', ['$scope', 'Wines', function ($scope, Wines) {
 
 		var updatedWine = $scope.data.wine;
 
