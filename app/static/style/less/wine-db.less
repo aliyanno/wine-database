@@ -3,217 +3,217 @@
 @import "buttons.less";
 
 body {
-	background: @ftBackground;
-	font-weight: 300;
-	font-size: 16px;
-	color: @textColor;
-	h1,h2,h3,h4,h5,h6 {
-		font-weight: 300;
-	}
+  background: @ftBackground;
+  font-weight: 300;
+  font-size: 16px;
+  color: @textColor;
+  h1,h2,h3,h4,h5,h6 {
+    font-weight: 300;
+  }
 }
 a {
-	text-decoration: none;
-	color: @textColor;
-	&:visited {
-		color: @textColor;
-	}
+  text-decoration: none;
+  color: @textColor;
+  &:visited {
+    color: @textColor;
+  }
 }
 .button-box {
-	clear: both;
-	margin: 20px 0;
-	padding-top: 20px;
-	border-top: 1px solid #ddd;
-	&#home {
-		border: none;
-		padding: 0;
-	}
-	.button {
-		padding: 9px 17px;
-		a {
-			text-decoration: none;
-		}
-	}
-	.search {
-		padding: 5px 3px;
-		margin: 10px 5px;
-	}
+  clear: both;
+  margin: 20px 0;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  &#home {
+    border: none;
+    padding: 0;
+  }
+  .button {
+    padding: 9px 17px;
+    a {
+      text-decoration: none;
+    }
+  }
+  .search {
+    padding: 5px 3px;
+    margin: 10px 5px;
+  }
 }
 .container {
-	width: 960px;
-	max-width: 100%;
-	margin: 0px auto;
+  width: 960px;
+  max-width: 100%;
+  margin: 0px auto;
 }
 #form-wine {
-	input {
-		margin-left: 10px;
-		margin-bottom: 15px;
-	}
+  input {
+    margin-left: 10px;
+    margin-bottom: 15px;
+  }
 }
 .ft {
-	height: 20px;
-	background: @ftBackground;
-	border-top: 1px solid #a9a9a9; 
+  height: 20px;
+  background: @ftBackground;
+  border-top: 1px solid #a9a9a9; 
 }
 .hd-hero {
-	width: 100%;
-	height: 250px;
-	background: url(../../assets/winecellar.jpg);
-	.container {
-		padding-top: 20px;
-		text-align: right;
-	}
-	p {
-		color: white;
-	}
-	.hero-login {
-		float: right;
-		color: white;
-		&.button {
-			background: rgba(250, 250, 250, 0.2);
-			&:hover {
-				background: @background;
-				color: #555;
-			}
-			&:active {
-				background: darken(@background, 3%);
-				outline: none;
-			}
-			&:focus {
-				outline: none;
-			}
-		}
-	}
-	.wine-hd {
-		text-align: left;
-		padding-top: 135px;
-		font-size: 30px;
-		h1 {
-			color: @background;
-		}
-	}
+  width: 100%;
+  height: 250px;
+  background: url(../../assets/winecellar.jpg);
+  .container {
+    padding-top: 20px;
+    text-align: right;
+  }
+  p {
+    color: white;
+  }
+  .hero-login {
+    float: right;
+    color: white;
+    &.button {
+      background: rgba(250, 250, 250, 0.2);
+      &:hover {
+        background: @background;
+        color: #555;
+      }
+      &:active {
+        background: darken(@background, 3%);
+        outline: none;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  .wine-hd {
+    text-align: left;
+    padding-top: 135px;
+    font-size: 30px;
+    h1 {
+      color: @background;
+    }
+  }
 }
 #list-wines {
-	padding-top: 20px;
-	min-height: 200px;
-	width: 100%;
-	position: relative;
-	span.sorted-by {
-		width:60px;
-		height: 60px;
-		background: url(../../assets/icon-sorted.png);
-		background-size: contain;
-	}
+  padding-top: 20px;
+  min-height: 200px;
+  width: 100%;
+  position: relative;
+  span.sorted-by {
+    width:60px;
+    height: 60px;
+    background: url(../../assets/icon-sorted.png);
+    background-size: contain;
+  }
 }
 .modal {
-	position: absolute;
-	z-index: 20;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 120%;
-	.modal-dim {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: 5;
-		background: rgba(0, 0, 0, 0.5)
-	}
-	.modal-body {
-		position: absolute;
-		top: 300px;
-		width: 400px;
-		margin-left: auto;
-		margin-right: auto;
-		left: 0;
-		right: 0;
-		z-index: 10;
-		background: @background;
-		box-shadow: 0px 0px 3px #555;
-		border: 1px solid #bbb;
-		border-radius: 3px;
-		h4 {
-			padding: 0 20px;
-		}
-		input {
-			margin: 33px;
-			margin-top: 0px;
-			padding: 5px;
-		}
-		.button {
-			padding: 9px 17px;
-			color: @buttonText;
-			a {
-				text-decoration: none;
-				color: @buttonText;
-			}
-		}
-	}
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  .modal-dim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.5)
+  }
+  .modal-body {
+    position: absolute;
+    top: 300px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: @background;
+    box-shadow: 0px 0px 3px #555;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    h4 {
+      padding: 0 20px;
+    }
+    input {
+      margin: 33px;
+      margin-top: 0px;
+      padding: 5px;
+    }
+    .button {
+      padding: 9px 17px;
+      color: @buttonText;
+      a {
+        text-decoration: none;
+        color: @buttonText;
+      }
+    }
+  }
 }
 .more-arrow {
-	height: 13px;
-	width: 8px;
-	float: right;
-	margin-right: 15px;
-	background: url(../../assets/icon-more.png);
-	background-size: contain;
+  height: 13px;
+  width: 8px;
+  float: right;
+  margin-right: 15px;
+  background: url(../../assets/icon-more.png);
+  background-size: contain;
 }
 .note {
-	font-style: italic;
-	color: #555;
-	font-size: 12px;
+  font-style: italic;
+  color: #555;
+  font-size: 12px;
 }
 .row {
-	width: 100%;
-	position: relative;
-	.clearfix();
-	&.list-hd {
-		text-transform: uppercase;
-		padding-bottom: 35px;
-		cursor: pointer;
-	}
-	&.list-elem {
-		height: 25px;
-		border-bottom: 1px solid #ddd;
-		padding: 5px 0;
-		&:hover {
-			background: #eee;
-		}
-		.col {
-			padding: 5px 0;
-		}
-	}
-	.col {
-		display: inline-block;
-		float: left;
-	}
-	.col-2 {
-		width: 100%/2;
-	}
-	.col-3 {
-		width: 100%/3;
-	}
-	.col-4 {
-		width: 100%/4;
-	}
-	.col-5 {
-		width: 100%/5;
-	}
+  width: 100%;
+  position: relative;
+  .clearfix();
+  &.list-hd {
+    text-transform: uppercase;
+    padding-bottom: 35px;
+    cursor: pointer;
+  }
+  &.list-elem {
+    height: 25px;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+    &:hover {
+      background: #eee;
+    }
+    .col {
+      padding: 5px 0;
+    }
+  }
+  .col {
+    display: inline-block;
+    float: left;
+  }
+  .col-2 {
+    width: 100%/2;
+  }
+  .col-3 {
+    width: 100%/3;
+  }
+  .col-4 {
+    width: 100%/4;
+  }
+  .col-5 {
+    width: 100%/5;
+  }
 }
 #single-wine {
-	width: 100%;
-	position: relative;
-	h2 {
-		margin-left: 10px;
-		margin-top: -5px;
-		padding-bottom: 10px;
-	}
+  width: 100%;
+  position: relative;
+  h2 {
+    margin-left: 10px;
+    margin-top: -5px;
+    padding-bottom: 10px;
+  }
 }
 #viewer {
-	background: @background;
-	.container {
-		padding-top: 25px;
-		padding-bottom: 40px;
-	}
+  background: @background;
+  .container {
+    padding-top: 25px;
+    padding-bottom: 40px;
+  }
 }
