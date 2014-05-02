@@ -1,43 +1,42 @@
 <!DOCTYPE HTML>
 <html lang="en" ng-app="wineApp">
-	<head>
-		<link rel="stylesheet" href="/static/style/css/normalize.css">
-		<link rel="stylesheet" href="/static/style/css/wine-db.css">
-	</head>
+  <head>
+    <link rel="stylesheet" href="/static/style/css/normalize.css">
+    <link rel="stylesheet" href="/static/style/css/wine-db.css">
+  </head>
 
 
-	<body ng-controller="CellarAppCtrl">
-		<div class="hd-hero">
-			<div class="container">
-				<button ng-hide="data.user.loggedIn" ng-click="login()" class="button hero-login">Log In</button>
-				<button ng-hide="!data.user.loggedIn" ng-click="logout()" class="button hero-login">Log Out</button>
-				<a href="#">
-					<div class="wine-hd">
-						<h1>The Wine Cellar</h1>
-					</div>
-				</a>
-			</div>
-		</div>
+  <body ng-controller="CellarAppCtrl">
+    <div class="hd-hero">
+      <div class="container">
+        <button ng-hide="data.user.loggedIn" ng-click="login()" class="button hero-login">Log In</button>
+        <button ng-hide="!data.user.loggedIn" ng-click="logout()" class="button hero-login">Log Out</button>
+        <a class="hero-anchor" href="#">
+          <div class="wine-hd">
+            <h1>The Wine Cellar</h1>
+          </div>
+        </a>
+      </div>
+    </div>
 
 <!-- ng-view will grab the current template depending on the url--this allows for use of the back button and internal links -->
 
-		<div ng-view id="viewer"></div>		
+    <div ng-view id="viewer"></div>   
 
 <!-- Library JS files -->
-		<script type="text/javascript" src='/static/js/lib/angular.js'></script>
-		<script type="text/javascript" src="/static/js/lib/angular-route.js"></script>
-		<script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
-		<script src="https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js"></script>
+    <script type="text/javascript" src='/static/js/lib/angular.js'></script>
+    <script type="text/javascript" src="/static/js/lib/angular-route.js"></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
+    <script src="https://cdn.firebase.com/js/simple-login/1.3.0/firebase-simple-login.js"></script>
 
 <!-- Custom JS files -->
-		<script type="text/javascript" src="/static/js/wine-app.js"></script>
-		<script type="text/javascript" src="/static/js/controllers.js"></script>
-		<script src="/static/js/services.js">
-		</script>
+    <script type="text/javascript" src="/static/js/wine-app.js"></script>
+    <script type="text/javascript" src="/static/js/controllers.js"></script>
+    <script type="text/javascript" src="/static/js/services.js"></script>
 
-		<div class="ft">
-			
-		</div>
-	</body>
+    <div class="ft">
+      
+    </div>
+  </body>
 
 </html>

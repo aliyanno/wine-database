@@ -1,69 +1,66 @@
 <!-- Main Template for Wine List -->
 
 <div class="content">
-	<div class="container">
-		<div class="button-box" id="home">
-			<h1>{{ data.cellar }}</h1>
+  <div class="container">
+    <div class="button-box" id="home">
+      <h1>{{ data.cellar }}</h1>
 <!-- user is logged in and is owner -->
-			<a ng-show="data.user.loggedIn" href="/#/cellars/{{ data.cellar }}/add.html">
-				<button class="button">Add Wine</button>
-			</a>
+      <a ng-show="data.cellarOwner == data.user.name" href="/#/cellars/{{ data.cellar }}/wines/add">
+        <button class="button">Add Wine</button>
+      </a>
 <!-- user is not logged in or is not owner -->
-			<a ng-hide="data.user.loggedIn" href="">
-				<button class="button disabled">Add Wine</button>
-			</a>
-			<input type="text" class="search" value="Search" placeholder="Search" ng-model="query">
-			<!-- <select ng-model="orderProp">
-				<option value="producer">Producer</option>
-				<option value="name">Name</option>
-				<option value="vintage">Vintage</option>
-			</select> -->
-			<p ng-hide="data.user.loggedIn" class="note">Please login to make changes</p>
-			<p>{{ data.feedback.responseText }}</p>
-		</div>
+      <a ng-hide="data.cellarOwner == data.user.name" href="">
+        <button class="button disabled">Add Wine</button>
+      </a>
+      <input type="text" class="search" value="Search" placeholder="Search" ng-model="query">
 
-		<div id="list-wines">
-			<div class="row list-hd">
-				<div class="col col-5" ng-click="setOrderProp('producer')">
-					Producer
-				</div>
-				<div class="col col-5" ng-click="setOrderProp('name')">
-					Name
-				</div>
-				<div class="col col-5" ng-click="setOrderProp('vintage')">
-					Vintage
-				</div>
-				<div class="col col-5" ng-click="setOrderProp('variety')">
-					Variety
-				</div>
-				<div class="col col-5" ng-click="setOrderProp('country')">
-					Country
-				</div>
-			</div>
-			
-			<div ng-repeat="wine in data.wines | filter:query | orderBy: data.orderProp">
-				<a ng-href="/#/cellars/{{ data.cellar }}/wines/{{ wine.databaseId }}">
-					<div class="row list-elem">
-						<div class="col col-5">
-							<span style="padding-left: 5px;">{{ wine.producer || "--"}}</span>
-						</div>
-						<div class="col col-5">
-							{{ wine.wineName || "--"}}
-						</div>
-						<div class="col col-5" id="vintage">
-							{{ wine.vintage || "--"}}
-						</div>
-						<div class="col col-5">
-							{{ wine.variety || "--"}}
-						</div>
-						<div class="col col-5">
-							{{ wine.country || "--"}}
-							<span class="more-arrow"></span>
-						</div>
-					</div>
-				</a>
-			</div>	
-		</div>
+      <p ng-hide="data.user.loggedIn" class="note">Please login to make changes</p>
+      <p ng-hide="data.cellarOwner == data.user.name" class="note">Only the cellar owner can make changes.</p>
+      <p>{{ data.feedback.responseText }}</p>
+    </div>
 
-	</div>
+    <div id="list-wines">
+      <div class="row list-hd">
+        <div class="col col-5" ng-click="setOrderProp('producer')">
+          Producer
+        </div>
+        <div class="col col-5" ng-click="setOrderProp('name')">
+          Name
+        </div>
+        <div class="col col-5" ng-click="setOrderProp('vintage')">
+          Vintage
+        </div>
+        <div class="col col-5" ng-click="setOrderProp('variety')">
+          Variety
+        </div>
+        <div class="col col-5" ng-click="setOrderProp('country')">
+          Country
+        </div>
+      </div>
+      
+      <div ng-repeat="wine in data.wines | filter:query | orderBy: data.orderProp">
+        <a ng-href="/#/cellars/{{ data.cellar }}/wines/{{ wine.databaseId }}">
+          <div class="row list-elem">
+            <div class="col col-5">
+              <span style="padding-left: 5px;">{{ wine.producer || "--"}}</span>
+            </div>
+            <div class="col col-5">
+              {{ wine.wineName || "--"}}
+            </div>
+            <div class="col col-5" id="vintage">
+              {{ wine.vintage || "--"}}
+            </div>
+            <div class="col col-5">
+              {{ wine.variety || "--"}}
+            </div>
+            <div class="col col-5">
+              {{ wine.country || "--"}}
+              <span class="more-arrow"></span>
+            </div>
+          </div>
+        </a>
+      </div>  
+    </div>
+
+  </div>
 </div>

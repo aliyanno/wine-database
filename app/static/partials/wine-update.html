@@ -1,44 +1,44 @@
 <!-- // Input form with current information -->
 
 <div class="content">
-	<div class="container">
-	<a ng-href="#/cellars/{{ data.cellar }}"><h1>{{ data.cellar }}</h1></a>
-		<h2>Update a Wine</h2>
-		<div class="row" id="form-wine">
-			<div class="col col-2">
-					<p>Wine's Name</p>
-					<input ng-model="data.wine.wineName">
-					<p>Producer</p>
-					<input ng-model="data.wine.producer">
-					<p>Variety</p>
-					<input ng-model="data.wine.variety">
-					<p>Vintage</p>
-					<input ng-model="data.wine.vintage">
-					<p>Optimal Age</p>
-					<input ng-model="data.wine.lifespan">
-				</div>
-				<div class="col col-2">
-					<p>Vineyard</p>
-					<input ng-model="data.wine.vineyard">
-					<p>Appelation</p>
-					<input ng-model="data.wine.appelation">
-					<p>Region</p>
-					<input ng-model="data.wine.subregion1">
-					<input ng-model="data.wine.subregion2">
-					<p>Country</p>
-					<input ng-model="data.wine.country">
-					<p>Quantity</p>
-					<input ng-model-"data.wine.quantity">
-				</div>
-			</div>
+  <div class="container">
+  <a ng-href="#/cellars/{{ data.cellar }}"><h1>{{ data.cellar }}</h1></a>
+    <h2>Update a Wine</h2>
+    <div class="row" id="form-wine">
+      <div class="col col-2">
+          <p>Wine's Name</p>
+          <input ng-model="data.wine.wineName">
+          <p>Producer</p>
+          <input ng-model="data.wine.producer">
+          <p>Variety</p>
+          <input ng-model="data.wine.variety">
+          <p>Vintage</p>
+          <input ng-model="data.wine.vintage">
+          <p>Optimal Age</p>
+          <input ng-model="data.wine.lifespan">
+        </div>
+        <div class="col col-2">
+          <p>Vineyard</p>
+          <input ng-model="data.wine.vineyard">
+          <p>Appelation</p>
+          <input ng-model="data.wine.appelation">
+          <p>Region</p>
+          <input ng-model="data.wine.subregion1">
+          <input ng-model="data.wine.subregion2">
+          <p>Country</p>
+          <input ng-model="data.wine.country">
+          <p>Quantity</p>
+          <input ng-model-"data.wine.quantity">
+        </div>
+      </div>
 
-		<div class="button-box">
-			<button class="button add-button" ng-click="updateWine()">
-				<a ng-href="/#/cellars/{{ data.cellar }}/wines/{{ data.wine.databaseId }}">
-				Update
-				</a>
-			</button>
-		</div>
+    <div class="button-box">
+      <button class="button add-button" ng-click="updateWine()">
+        <a ng-href="/#/cellars/{{ data.cellar }}/wines/{{ data.wine.databaseId }}">
+        Update
+        </a>
+      </button>
+    </div>
 
-	</div>
+  </div>
 </div>
