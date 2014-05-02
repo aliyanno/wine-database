@@ -30,13 +30,14 @@
       </div>
 
       <div class="button-box">
-        <a ng-hide="!data.user.loggedIn" ng-href="/#/cellars/{{ data.cellar }}/wines/{{ data.wine.databaseId }}/update">
+        <a ng-show="data.cellarOwner == data.user.name" ng-href="/#/cellars/{{ data.cellar }}/wines/{{ data.wine.databaseId }}/update">
           <button class="button">Update</button>
         </a>
-        <a ng-hide="data.user.loggedIn">
+        <a ng-hide="data.cellarOwner == data.user.name">
           <button class="button disabled">Update</button>
         </a>
         <p ng-hide="data.user.loggedIn" class="note">Please login to make changes</p>
+        <p ng-hide="data.cellarOwner == data.user.name" class="note">Only the cellar owner can make changes.</p>
       </div>
     </div>
   </div>

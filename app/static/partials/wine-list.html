@@ -5,20 +5,17 @@
     <div class="button-box" id="home">
       <h1>{{ data.cellar }}</h1>
 <!-- user is logged in and is owner -->
-      <a ng-show="data.user.loggedIn" href="/#/cellars/{{ data.cellar }}/add.html">
+      <a ng-show="data.cellarOwner == data.user.name" href="/#/cellars/{{ data.cellar }}/wines/add">
         <button class="button">Add Wine</button>
       </a>
 <!-- user is not logged in or is not owner -->
-      <a ng-hide="data.user.loggedIn" href="">
+      <a ng-hide="data.cellarOwner == data.user.name" href="">
         <button class="button disabled">Add Wine</button>
       </a>
       <input type="text" class="search" value="Search" placeholder="Search" ng-model="query">
-      <!-- <select ng-model="orderProp">
-        <option value="producer">Producer</option>
-        <option value="name">Name</option>
-        <option value="vintage">Vintage</option>
-      </select> -->
+
       <p ng-hide="data.user.loggedIn" class="note">Please login to make changes</p>
+      <p ng-hide="data.cellarOwner == data.user.name" class="note">Only the cellar owner can make changes.</p>
       <p>{{ data.feedback.responseText }}</p>
     </div>
 

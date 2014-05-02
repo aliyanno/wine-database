@@ -67,6 +67,7 @@ cellarControllers
     // resets data.cellar so that there is no data
     // carry-over when selecting another cellar
     $scope.data.cellar = null;
+    $scope.data.feedback.responseText = "";
 
     $scope.toggleModal = function () {
       $scope.data.modalOn = !$scope.data.modalOn;
@@ -113,13 +114,13 @@ cellarControllers
 // Wine List Control grabs active cellar and populates a list 
 // of wines in that cellar from the Firebase database
 // -----------
-  .controller('WineListCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
+  .controller('WineListCtrl', ['$scope', '$routeParams', 'Wines', 'Cellars', function ($scope, $routeParams, Wines, Cellars) {
 
     // sets the active cellar from the url created in adding or selecting a cellar
     $scope.data.cellar = $routeParams.Cellar;
 
-    // makes sure there is no data carry-over when
-    // viewing another wine
+    // Reset app data
+    $scope.data.wines = [];
     $scope.data.wine = {
       "available": true,
       "quantity": 1,
@@ -137,6 +138,12 @@ cellarControllers
     $scope.setOrderProp = function (prop) {
       $scope.data.orderProp = prop;
     };
+
+    Cellars.getCellar($scope.data.cellar, 'owner')
+      .then(function (response) {
+        $scope.data.cellarOwner = response.data.owner;
+    });
+
     
   }])
 
@@ -198,6 +205,7 @@ cellarControllers
           Wines.getWineList($scope.data.cellar).then(function (response) {
             $scope.data.wines = response;
           });
+          $scope.data.feedback.responseText = "Wine Added!";
       });
     };
   }])

@@ -22,7 +22,7 @@ wineApp.config(['$routeProvider',
         templateUrl: 'static/partials/wine-list.html',
         controller: 'WineListCtrl',
       }).
-      when('/cellars/:Cellar/add.html', {
+      when('/cellars/:Cellar/wines/add', {
         templateUrl: 'static/partials/wine-add.html',
         controller: 'WineAddCtrl',
       }).

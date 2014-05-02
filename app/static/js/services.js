@@ -44,8 +44,8 @@ cellarServices
         addCellar: function (cellarData) {
           return $http({method: 'PUT', url: dataUrl + cellarData.name + '.json', data: cellarData, });
         },
-        getCellarOwner: function (cellar) {
-          return $http({method: 'GET', url: dataUrl + cellar + '/owner.json', });
+        getCellar: function (cellar, attr) {
+          return $http({method: 'GET', url: dataUrl + cellar + '.json', })
         },
       };
   }])
