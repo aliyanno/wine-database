@@ -157,6 +157,7 @@ cellarControllers
     // checks to see if data.wine is current for the active
     // wine by comparing to the route URL. If not, gets new
     // wine data 
+    $scope.data.cellar = $routeParams.Cellar;
 
     if ($routeParams.Id !== $scope.data.wine.databaseId) {
       Wines.getWine($scope.data.cellar, $routeParams.Id).then(function (data) {
@@ -169,13 +170,14 @@ cellarControllers
 // the cellar to add a wine to that cellar.
 // -----------
 
-  .controller('WineAddCtrl', ['$scope', 'Wines', function ($scope, Wines) {
+  .controller('WineAddCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
 
     $scope.data.wine = {
-        "available": true,
-        "quantity": 1,
-      };
+      "available": true,
+      "quantity": 1,
+    };
 
+    $scope.data.cellar = $routeParams.Cellar;
     var newWine = $scope.data.wine;
 
     $scope.addWine = function () {
@@ -214,9 +216,10 @@ cellarControllers
 // wine data allowing user, if owner, to edit the details of 
 // that wine
 // -----------
-  .controller('WineUpdateCtrl', ['$scope', 'Wines', function ($scope, Wines) {
+  .controller('WineUpdateCtrl', ['$scope', '$routeParams', 'Wines', function ($scope, $routeParams, Wines) {
 
     var updatedWine = $scope.data.wine;
+    $scope.data.cellar = $routeParams.Cellar;
 
     $scope.updateWine = function () {
       var drinkYear = parseInt(updatedWine.lifespan, 10) + parseInt(updatedWine.vintage, 10);

@@ -1,6 +1,6 @@
 <div class="content">
   <div class="container">
-    <a ng-href="#/cellars/{{ data.cellar }}"><h1>&larr {{ data.cellar }}</h1></a>
+    <a ng-href="#/cellars/{{ data.cellar }}"><h1>{{ data.cellar }}</h1></a>
     <div class="row" id="single-wine">
       <div class="col col-2"> 
         <p>Producer</p>
@@ -12,7 +12,7 @@
         <p>Vintage</p>
         <h2>{{ data.wine.vintage }}</h2>
         <p>Optimal Drinking Year</p>
-        <h2>{{ data.wine.age }}</h2>
+        <h2>{{ data.wine.drinkYear }}</h2>
       </div>
       <div class="col col-2">
         <p>Vineyard</p>
