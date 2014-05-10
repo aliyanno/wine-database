@@ -12,7 +12,7 @@
         <p>Vintage</p>
         <h2>{{ data.wine.vintage }}</h2>
         <p>Optimal Drinking Year</p>
-        <h2>{{ data.wine.drinkYear }}</h2>
+        <h2>{{ data.wine.drinkYear || "We wait..."}}</h2>
       </div>
       <div class="col col-2">
         <p>Vineyard</p>
@@ -21,12 +21,12 @@
         <h2>{{ data.wine.appelation || "--" }}</h2>
         <p>Region</p>
         <h2>
-          <span ng-if="wine.subregion2 == true">{{ data.wine.subregion2 + ',' }}</span> {{ data.wine.subregion1 }}
+          <span ng-hide="!data.wine.subregion2">{{ data.wine.subregion2 + ',' }}</span> {{ data.wine.subregion1 || "--"}}
         </h2>
         <p>Country</p>
         <h2>{{ data.wine.country }}</h2>
         <p>Quantity</p>
-        <h2>{{ data.wine.quantity }}</h2>
+        <h2>{{ data.wine.amount || "1" }}</h2>
       </div>
 
       <div class="button-box">

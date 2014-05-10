@@ -79,11 +79,15 @@ cellarControllers
 
         // once .cellars is defined, get number of wines
         angular.forEach($scope.data.cellars, function (cellar) {
-          var wineArray = [];
+          var wineCounter = 0;
           angular.forEach(cellar.wines, function (wine) {
-            wineArray.push(wine);
-          })
-          cellar.cellarSize = wineArray.length;
+            if (wine.amount === 1) {
+              wineCounter++;
+            } else if (wine.amount !== 1) {
+              wineCounter = parseInt(wineCounter, 10) + parseInt(wine.amount, 10);
+            }
+          });
+          cellar.cellarSize = wineCounter;
         });
       });
     };
@@ -123,7 +127,6 @@ cellarControllers
     $scope.data.wines = [];
     $scope.data.wine = {
       "available": true,
-      "quantity": 1,
     };
 
     $scope.getWinesList = function (cellar) {
@@ -133,7 +136,7 @@ cellarControllers
     }; 
     $scope.getWinesList($scope.data.cellar); 
 
-    $scope.data.orderProp = "producer";
+    $scope.data.orderProp = "vintage";
 
     $scope.setOrderProp = function (prop) {
       $scope.data.orderProp = prop;
@@ -174,7 +177,6 @@ cellarControllers
 
     $scope.data.wine = {
       "available": true,
-      "quantity": 1,
     };
 
     $scope.data.cellar = $routeParams.Cellar;
