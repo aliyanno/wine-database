@@ -1,6 +1,6 @@
 <div class="content">
   <div class="container">
-    <a ng-href="#/cellars/{{ data.cellar }}"><h1>{{ data.cellar }}</h1></a>
+    <a class="cellar-link" ng-href="#/cellars/{{ data.cellar }}"><h1>{{ data.cellar }}</h1></a>
     <div class="row" id="single-wine">
       <div class="col col-2"> 
         <p>Producer</p>
@@ -26,7 +26,7 @@
         <p>Country</p>
         <h2>{{ data.wine.country }}</h2>
         <p>Quantity</p>
-        <h2>{{ data.wine.amount || "1" }}</h2>
+        <h2>{{ data.wine.amount === false ? 1 : data.wine.amount }}</h2>
       </div>
 
       <div class="button-box">

@@ -133,7 +133,7 @@ cellarControllers
       Wines.getWineList(cellar).then(function (response) {
         $scope.data.wines = response;
       });
-    }; 
+    };
     $scope.getWinesList($scope.data.cellar); 
 
     $scope.data.orderProp = "vintage";
@@ -147,7 +147,25 @@ cellarControllers
         $scope.data.cellarOwner = response.data.owner;
     });
 
-    
+    // if the wine has been marked unavailable, wine amount is updated to be 0
+    $scope.markAsUnavailable = function (databaseId) {
+      var wineData = {
+        available: false,
+        amount: 0,
+      };
+      Wines.updateWine($scope.data.cellar, databaseId, wineData);
+      this.wine.available = false;
+    };
+
+    $scope.markAsAvailable = function (databaseId) {
+      var wineData = {
+        available: true,
+        amount: 1,
+      };
+      Wines.updateWine($scope.data.cellar, databaseId, wineData);
+      this.wine.available = true;
+    };
+
   }])
 
 // Wine Detail Controller is a display of the current 
@@ -167,6 +185,7 @@ cellarControllers
         $scope.data.wine = data.data;
       });
     }
+
   }])
 
 // Wine Add Controller controls a form allowing the owner of 

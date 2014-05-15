@@ -13,6 +13,8 @@
         <button class="button disabled">Add Wine</button>
       </a>
       <input type="text" class="search" value="Search" placeholder="Search" ng-model="query">
+      <input type="checkbox" ng-model="data.show_unavailable" ng-click="setOrderProp('available')">
+        <span class="checkbox-text">Show unavailable wines</span>
 
       <p ng-hide="data.user.loggedIn" class="note">Please login to make changes</p>
       <p ng-hide="data.cellarOwner == data.user.name" class="note">Only the cellar owner can make changes.</p>
@@ -38,9 +40,12 @@
         </div>
       </div>
       
-      <div ng-repeat="wine in data.wines | filter:query | orderBy: data.orderProp">
+      <div ng-repeat="wine in data.wines | filter:query | orderBy: data.orderProp" ng-show="wine.available || data.show_unavailable">
+        <span ng-show="wine.available" class="glyphicons remove_2" ng-click="markAsUnavailable(wine.databaseId)"></span>
+        <span ng-hide="wine.available" class="glyphicons ok_2" ng-click="markAsAvailable(wine.databaseId)"></span>
+
         <a ng-href="/#/cellars/{{ data.cellar }}/wines/{{ wine.databaseId }}">
-          <div class="row list-elem">
+          <div class="row list-elem" ng-class="{ unavailable: !wine.available } ">
             <div class="col col-5">
               <span style="padding-left: 5px;">{{ wine.producer || "--"}}</span>
             </div>

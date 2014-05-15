@@ -2,10 +2,14 @@
 
 <div class="content">
   <div class="container">
-  <a ng-href="#/cellars/{{ data.cellar }}"><h1>{{ data.cellar }}</h1></a>
+  <a class="cellar-link" ng-href="#/cellars/{{ data.cellar }}"><h1>{{ data.cellar }}</h1></a>
     <h2>Update a Wine</h2>
+
     <div class="row" id="form-wine">
       <div class="col col-2">
+          <input type="checkbox" ng-model="data.wine.available">
+          <span ng-show="data.wine.available">Wine is Available</span>
+          <span ng-hide="data.wine.available">Wine is Unavailable</span>
           <p>Wine's Name</p>
           <input ng-model="data.wine.wineName">
           <p>Producer</p>
@@ -24,6 +28,7 @@
           <input ng-model="data.wine.appelation">
           <p>Region</p>
           <input ng-model="data.wine.subregion1">
+          <br />
           <input ng-model="data.wine.subregion2">
           <p>Country</p>
           <input ng-model="data.wine.country">
